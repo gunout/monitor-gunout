@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🇷🇪 Reunion Monitor — Démos en ligne</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-0:#050810;--bg-1:#0a0f1a;--bg-2:#0f1624;--bg-3:#151f30;
+  --border:#1c2940;--border-hi:#2a3a55;
+  --text-0:#e6f1ff;--text-1:#8ba3c7;--text-2:#4a5f7f;
+  --cyan:#00e5ff;--cyan-dim:#0097a7;
+  --red:#ff3b3b;--red-dim:#8b1a1a;
+  --amber:#ffb800;--green:#00ff88;--purple:#a855f7;--blue:#3b82f6;
+  --font-mono:'SF Mono',Menlo,Consolas,monospace;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
+  font-size:12px;line-height:1.4}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg-1)}
+::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--cyan-dim)}
+
+/* TOPBAR */
+.topbar{height:50px;background:linear-gradient(180deg,#0a0f1a,#050810);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;
+  padding:0 16px;gap:16px;position:relative;z-index:100}
+.brand{font-family:var(--font-mono);font-size:13px;font-weight:700;
+  color:var(--cyan);letter-spacing:1.2px;display:flex;align-items:center;gap:9px}
+.brand .dot{width:9px;height:9px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 12px var(--green);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.85)}}
+
+.tabs{display:flex;gap:2px;margin-left:20px}
+.tab{background:transparent;border:none;color:var(--text-1);font-family:var(--font-mono);
+  font-size:11px;font-weight:600;padding:8px 14px;border-radius:4px;cursor:pointer;
+  letter-spacing:0.5px;transition:all 0.15s;display:flex;align-items:center;gap:6px}
+.tab:hover{background:var(--bg-2);color:var(--text-0)}
+.tab.active{background:var(--bg-3);color:var(--cyan);box-shadow:inset 0 -2px 0 var(--cyan)}
+
+.topbar-right{margin-left:auto;display:flex;gap:16px;font-family:var(--font-mono);font-size:11px;align-items:center}
+.topbar-stat{display:flex;gap:6px;color:var(--text-1);align-items:center}
+.topbar-stat .val{color:var(--cyan);font-weight:700}
+.topbar-stat .val.green{color:var(--green)}
+
+/* APP */
+.app{display:grid;grid-template-columns:300px 1fr 320px;height:calc(100vh - 50px);overflow:hidden}
+@media(max-width:1200px){.app{grid-template-columns:260px 1fr 280px}}
+@media(max-width:900px){.app{grid-template-columns:1fr;grid-template-rows:auto 1fr;height:auto;overflow:auto}}
+
+/* LEFT SIDEBAR */
+.sidebar{background:var(--bg-1);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden}
+.sb-head{padding:14px 16px;border-bottom:1px solid var(--border);background:var(--bg-2)}
+.sb-title{font-family:var(--font-mono);font-size:10px;font-weight:700;
+  color:var(--cyan);letter-spacing:1.2px;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px}
+.sb-title::before{content:'';width:3px;height:12px;background:var(--green)}
+.sb-count{font-family:var(--font-mono);font-size:10px;color:var(--text-2);margin-top:5px}
+
+.sb-search{padding:10px 12px;border-bottom:1px solid var(--border)}
+.sb-search input{width:100%;background:var(--bg-3);border:1px solid var(--border);
+  border-radius:4px;color:var(--text-0);padding:7px 11px;font-size:11px;font-family:var(--font-mono)}
+.sb-search input:focus{outline:none;border-color:var(--cyan)}
+
+.sb-filters{padding:10px 12px;border-bottom:1px solid var(--border);
+  display:flex;flex-wrap:wrap;gap:5px}
+.sb-filter{background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);
+  font-family:var(--font-mono);font-size:9px;font-weight:600;
+  padding:4px 9px;border-radius:10px;cursor:pointer;white-space:nowrap;
+  transition:all 0.15s}
+.sb-filter:hover{border-color:var(--cyan);color:var(--text-0)}
+.sb-filter.active{background:var(--cyan);color:var(--bg-0);border-color:var(--cyan)}
+
+.sb-list{flex:1;overflow-y:auto;padding:8px}
+.sb-item{background:var(--bg-2);border:1px solid var(--border);border-left:3px solid var(--green);
+  border-radius:5px;padding:9px 11px;margin-bottom:5px;cursor:pointer;
+  transition:all 0.15s;position:relative}
+.sb-item:hover{border-color:var(--cyan);border-left-color:var(--cyan);
+  background:var(--bg-3);transform:translateX(2px)}
+.sb-item.active{border-color:var(--cyan);border-left-color:var(--cyan);background:var(--bg-3)}
+.sb-item.active::after{content:'';position:absolute;right:8px;top:50%;
+  transform:translateY(-50%);width:5px;height:5px;border-radius:50%;
+  background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.sb-item-h{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.sb-item-icon{font-size:15px;flex-shrink:0}
+.sb-item-name{font-family:var(--font-mono);font-size:10.5px;font-weight:700;
+  color:var(--text-0);flex:1;line-height:1.25;word-break:break-word}
+.sb-item-meta{display:flex;gap:7px;font-family:var(--font-mono);font-size:8.5px;
+  color:var(--text-2);margin-top:3px}
+.sb-item-meta .live{color:var(--green);font-weight:700}
+
+/* CENTER */
+.center{background:var(--bg-0);display:flex;flex-direction:column;overflow:hidden}
+
+.work-bar{padding:12px 18px;background:var(--bg-1);border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.work-bar-info{flex:1;min-width:180px}
+.work-bar-title{font-family:var(--font-mono);font-size:14px;font-weight:700;
+  color:var(--text-0);display:flex;align-items:center;gap:9px;line-height:1.3}
+.work-bar-title .ic{font-size:19px;filter:drop-shadow(0 0 7px currentColor)}
+.work-bar-url{font-family:var(--font-mono);font-size:9px;color:var(--text-2);margin-top:4px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.work-bar-actions{display:flex;gap:6px;flex-wrap:wrap}
+.wb-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;
+  padding:7px 12px;border-radius:4px;text-decoration:none;letter-spacing:0.4px;
+  transition:all 0.15s;cursor:pointer;border:1px solid transparent;
+  display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.wb-btn.cyan{background:var(--cyan);color:var(--bg-0);border-color:var(--cyan)}
+.wb-btn.cyan:hover{background:white;border-color:white}
+.wb-btn.green{background:var(--green);color:var(--bg-0);border-color:var(--green)}
+.wb-btn.green:hover{background:white;border-color:white}
+.wb-btn.gray{background:var(--bg-3);color:var(--text-0);border-color:var(--border)}
+.wb-btn.gray:hover{border-color:var(--cyan);color:var(--cyan)}
+.wb-btn.purple{background:var(--purple);color:white;border-color:var(--purple)}
+.wb-btn.purple:hover{background:white;color:var(--purple)}
+
+/* MODE TABS */
+.mode-tabs{display:flex;gap:2px;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--bg-2)}
+.mode-tab{background:transparent;border:none;color:var(--text-1);font-family:var(--font-mono);
+  font-size:10px;font-weight:600;padding:6px 11px;border-radius:4px;cursor:pointer;
+  letter-spacing:0.4px;transition:all 0.15s}
+.mode-tab:hover{background:var(--bg-3);color:var(--text-0)}
+.mode-tab.active{background:var(--bg-3);color:var(--cyan);box-shadow:inset 0 -2px 0 var(--cyan)}
+
+/* IFRAME */
+.view{flex:1;position:relative;overflow:hidden;background:var(--bg-1)}
+.frame-wrap{position:absolute;inset:10px;display:flex;align-items:center;justify-content:center}
+.frame{width:100%;height:100%;border:1px solid var(--border);border-radius:6px;
+  background:white;box-shadow:0 8px 40px rgba(0,229,255,0.08)}
+.frame:hover{box-shadow:0 8px 40px rgba(0,229,255,0.18)}
+
+/* LOADING */
+.f-loading{position:absolute;inset:10px;background:rgba(10,15,26,0.96);
+  border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;z-index:5;transition:opacity 0.35s}
+.f-loading.hidden{opacity:0;pointer-events:none}
+.spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--cyan);
+  border-radius:50%;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.f-load-txt{font-family:var(--font-mono);font-size:11px;color:var(--text-1)}
+.f-load-url{font-family:var(--font-mono);font-size:9px;color:var(--cyan);
+  padding:4px 10px;background:var(--bg-3);border-radius:3px;max-width:80%;word-break:break-all}
+
+/* INFO ANTI-IFRAME */
+.f-info{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);
+  background:var(--bg-2);border:1px solid var(--amber);border-radius:6px;
+  padding:10px 16px;font-family:var(--font-mono);font-size:10px;color:var(--amber);
+  max-width:520px;text-align:center;z-index:4;line-height:1.5;display:none}
+.f-info.visible{display:block}
+.f-info a{color:var(--green);font-weight:700;text-decoration:none}
+
+/* GRILLE APERÇUS */
+.grid-view{flex:1;overflow-y:auto;padding:16px}
+.grid-title{font-family:var(--font-mono);font-size:11px;font-weight:700;
+  color:var(--cyan);letter-spacing:1.2px;text-transform:uppercase;
+  margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.grid-title::before{content:'';width:3px;height:12px;background:var(--green)}
+.previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+
+.preview-card{background:var(--bg-1);border:1px solid var(--border);border-radius:8px;
+  overflow:hidden;transition:all 0.2s;cursor:pointer;position:relative;
+  display:flex;flex-direction:column}
+.preview-card:hover{border-color:var(--cyan);transform:translateY(-3px);
+  box-shadow:0 8px 30px rgba(0,229,255,0.15)}
+.preview-head{padding:10px 12px;background:linear-gradient(180deg,var(--bg-2),var(--bg-1));
+  border-bottom:1px solid var(--border);display:flex;justify-content:space-between;
+  align-items:flex-start;gap:8px}
+.preview-title{font-family:var(--font-mono);font-size:11px;font-weight:700;
+  color:var(--text-0);display:flex;align-items:center;gap:7px;flex:1;
+  line-height:1.3;word-break:break-word}
+.preview-title .ic{font-size:15px;flex-shrink:0}
+.p-badges{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
+.p-badge{font-family:var(--font-mono);font-size:8px;font-weight:700;
+  padding:2px 6px;border-radius:3px;text-transform:uppercase;white-space:nowrap}
+.p-badge.live{background:var(--green);color:var(--bg-0)}
+.p-badge.cat{background:var(--bg-3);color:var(--text-0);border:1px solid var(--border)}
+
+.preview-frame-wrap{width:100%;height:210px;background:white;position:relative;
+  overflow:hidden;border-bottom:1px solid var(--border)}
+.preview-frame{width:200%;height:200%;border:none;transform:scale(0.5);
+  transform-origin:0 0;pointer-events:none}
+.preview-overlay{position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 55%,rgba(5,8,16,0.95));
+  display:flex;align-items:flex-end;padding:10px;cursor:pointer}
+.preview-btn{background:var(--green);color:var(--bg-0);font-family:var(--font-mono);
+  font-size:9.5px;font-weight:700;padding:6px 11px;border-radius:4px;
+  display:flex;align-items:center;gap:5px;border:none;cursor:pointer}
+
+.preview-foot{padding:8px 12px;background:var(--bg-2);display:flex;
+  justify-content:space-between;align-items:center;font-family:var(--font-mono);
+  font-size:8.5px;color:var(--text-2)}
+.p-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.p-metric{background:var(--bg-2);padding:7px 5px;text-align:center}
+.p-metric .v{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--text-0)}
+.p-metric .v.amber{color:var(--amber)}
+.p-metric .l{font-family:var(--font-mono);font-size:7.5px;color:var(--text-2);
+  text-transform:uppercase;margin-top:2px;letter-spacing:0.4px}
+
+/* RIGHT SIDEBAR */
+.right{background:var(--bg-1);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden}
+.rs-head{padding:12px 14px;border-bottom:1px solid var(--border);background:var(--bg-2);
+  font-family:var(--font-mono);font-size:10px;font-weight:700;color:var(--cyan);
+  letter-spacing:1.2px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.rs-head::before{content:'';width:3px;height:12px;background:var(--green)}
+.rs-body{flex:1;overflow-y:auto;padding:12px}
+
+.intel-panel{background:var(--bg-2);border:1px solid var(--border);border-radius:5px;
+  margin-bottom:10px;overflow:hidden}
+.intel-head{padding:7px 11px;background:var(--bg-3);border-bottom:1px solid var(--border);
+  font-family:var(--font-mono);font-size:9.5px;font-weight:700;color:var(--cyan);
+  letter-spacing:1px;text-transform:uppercase;display:flex;justify-content:space-between;
+  align-items:center}
+.intel-body{padding:10px}
+.intel-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;
+  border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:9.5px}
+.intel-row:last-child{border-bottom:none}
+.intel-row .k{color:var(--text-1)}
+.intel-row .v{color:var(--text-0);font-weight:700;text-align:right;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px}
+.intel-row .v.cyan{color:var(--cyan)}
+.intel-row .v.green{color:var(--green)}
+.intel-row .v.amber{color:var(--amber)}
+.intel-row .v.red{color:var(--red)}
+
+.progress{height:3px;background:var(--bg-3);border-radius:2px;overflow:hidden;margin-top:4px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan-dim),var(--cyan));
+  border-radius:2px;transition:width 0.4s}
+
+/* Loading global */
+.loading{text-align:center;padding:60px 20px;color:var(--text-1);
+  font-family:var(--font-mono);font-size:11px}
+.error-box{background:rgba(255,59,59,0.08);border:1px solid var(--red);color:var(--red);
+  padding:14px;border-radius:5px;font-family:var(--font-mono);font-size:11px;margin:16px}
+
+/* Mobile */
+@media(max-width:900px){
+  body{overflow:auto}
+  .app{grid-template-columns:1fr;grid-template-rows:auto auto 1fr;height:auto}
+  .sidebar{max-height:250px}
+  .right{max-height:400px}
+  .tabs{overflow-x:auto;margin-left:6px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="brand">
+    <span class="dot"></span>
+    REUNION MONITOR
+    <span style="color:var(--text-2);font-weight:400;font-size:12px">/ démos live</span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="single">🖥️ Travail actif</button>
+    <button class="tab" data-tab="grid">🔲 Tous les aperçus</button>
+  </div>
+
+  <div class="topbar-right">
+    <div class="topbar-stat"><span>DÉMOS</span><span class="val green" id="tbTotal">—</span></div>
+    <div class="topbar-stat"><span>ACTIF</span><span class="val" id="tbActive">—</span></div>
+    <div class="topbar-stat"><span>★</span><span class="val" id="tbStars">—</span></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+  <!-- SIDEBAR GAUCHE -->
+  <aside class="sidebar">
+    <div class="sb-head">
+      <div class="sb-title">◆ MES DÉMOS</div>
+      <div class="sb-count" id="sbCount">Chargement...</div>
+    </div>
+    <div class="sb-search">
+      <input type="text" id="searchInput" placeholder="🔍 Rechercher...">
+    </div>
+    <div class="sb-filters" id="sbFilters"></div>
+    <div class="sb-list" id="sbList">
+      <div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin-bottom:8px"></div>Scan GitHub...</div>
+    </div>
+  </aside>
+
+  <!-- CENTRE -->
+  <main class="center">
+    <div class="work-bar">
+      <div class="work-bar-info">
+        <div class="work-bar-title">
+          <span class="ic" id="activeIcon">🇷🇪</span>
+          <span id="activeName">Chargement...</span>
+        </div>
+        <div class="work-bar-url" id="activeUrl">—</div>
+      </div>
+      <div class="work-bar-actions">
+        <button class="wb-btn cyan" id="reloadBtn">🔄 Recharger</button>
+        <button class="wb-btn purple" id="zoomBtn">🔍 Zoom</button>
+        <a class="wb-btn green" id="openBtn" href="#" target="_blank" rel="noopener">🚀 Ouvrir</a>
+        <a class="wb-btn gray" id="codeBtn" href="#" target="_blank" rel="noopener">📦 Code</a>
+      </div>
+    </div>
+
+    <div class="view" id="viewMain">
+      <div class="f-loading" id="fLoading">
+        <div class="spin"></div>
+        <div class="f-load-txt">Chargement du travail intégré...</div>
+        <div class="f-load-url" id="fLoadUrl">—</div>
+      </div>
+      <div class="frame-wrap">
+        <iframe class="frame" id="mainFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"></iframe>
+      </div>
+      <div class="f-info" id="fInfo">
+        ℹ️ Ce travail ne peut pas être intégré directement (protection anti-iframe).<br>
+        <a id="fInfoLink" href="#" target="_blank">Ouvrir dans un nouvel onglet →</a>
+      </div>
+    </div>
+
+    <div class="grid-view" id="viewGrid" style="display:none">
+      <div class="grid-title">◆ Aperçu de toutes mes démos</div>
+      <div class="previews" id="previewsGrid"></div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR DROITE -->
+  <aside class="right">
+    <div class="rs-head">◆ INTELLIGENCE</div>
+    <div class="rs-body">
+      <div class="intel-panel">
+        <div class="intel-head"><span>📊 TRAVAIL ACTIF</span></div>
+        <div class="intel-body" id="intelActive">
+          <div class="intel-row"><span class="k">Nom</span><span class="v cyan" id="ivName">—</span></div>
+          <div class="intel-row"><span class="k">Catégorie</span><span class="v" id="ivCat">—</span></div>
+          <div class="intel-row"><span class="k">Langage</span><span class="v" id="ivLang">—</span></div>
+          <div class="intel-row"><span class="k">Statut</span><span class="v green" id="ivStatus">—</span></div>
+        </div>
+      </div>
+
+      <div class="intel-panel">
+        <div class="intel-head"><span>📈 STATISTIQUES GLOBALES</span></div>
+        <div class="intel-body">
+          <div class="intel-row"><span class="k">Total démos</span><span class="v green" id="gsTotal">—</span></div>
+          <div class="intel-row"><span class="k">Catégories</span><span class="v amber" id="gsCats">—</span></div>
+          <div class="intel-row"><span class="k">★ Stars</span><span class="v cyan" id="gsStars">—</span></div>
+          <div class="intel-row"><span class="k">Langages</span><span class="v" id="gsLangs">—</span></div>
+        </div>
+      </div>
+
+      <div class="intel-panel">
+        <div class="intel-head"><span>🏆 TOP DÉMOS</span></div>
+        <div class="intel-body" id="topList"></div>
+      </div>
+
+      <div class="intel-panel">
+        <div class="intel-head"><span>📂 CATÉGORIES</span></div>
+        <div class="intel-body" id="catList"></div>
+      </div>
+
+      <div class="intel-panel">
+        <div class="intel-head"><span>⚙️ SYSTÈME</span></div>
+        <div class="intel-body">
+          <div class="intel-row"><span class="k">Source</span><span class="v">GitHub API</span></div>
+          <div class="intel-row"><span class="k">User</span><span class="v cyan">@gunout</span></div>
+          <div class="intel-row"><span class="k">MAJ</span><span class="v green" id="sysUpdate">—</span></div>
+          <div class="intel-row"><span class="k">Mode</span><span class="v" id="sysMode">iframe</span></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+/* ============================================================
+   CONFIG
+   ============================================================ */
+const GITHUB_USERNAME = 'gunout';
+const API_BASE = 'https://api.github.com';
+const GITHUB_TOKEN = '';
+
+/* ============================================================
+   TES DÉMOS RÉUNION — CATALOGUE
+   ============================================================ */
+const DEMOS = [
+  { id: 1, name: 'Météo Réunion', repo: 'meteo-reunion',
+    url: 'https://gunout.github.io/meteo-reunion/',
+    icon: '🌴', color: '#00ff88', category: 'Météo',
+    description: 'Dashboard météo temps réel des 24 communes.' },
+
+  { id: 2, name: 'Vigie Requins', repo: 'vigie-requins',
+    url: 'https://gunout.github.io/vigie-requins/',
+    icon: '🦈', color: '#3b82f6', category: 'Mer & Sécurité',
+    description: 'Surveillance des attaques de requins à La Réunion.' },
+
+  { id: 3, name: 'Reunion Express', repo: 'reunion-express',
+    url: 'https://gunout.github.io/reunion-express/',
+    icon: '🚄', color: '#00e5ff', category: 'Transport',
+    description: 'Suivi des transports et mobilité à La Réunion.' },
+
+  { id: 4, name: 'Accessibilité Immobilière Réunion', repo: 'accessibilite-immobiliere-reunion',
+    url: 'https://gunout.github.io/accessibilite-immobiliere-reunion/',
+    icon: '🏘️', color: '#ffb800', category: 'Immobilier',
+    description: 'Analyse de l\'accessibilité immobilière à La Réunion.' },
+
+  { id: 5, name: 'Dashboard CPF Réunion', repo: 'dashboard-cpf-reunion',
+    url: 'https://gunout.github.io/dashboard-cpf-reunion/',
+    icon: '🎓', color: '#a855f7', category: 'Formation',
+    description: 'Tableau de bord du Compte Personnel de Formation.' },
+
+  { id: 6, name: 'Assainissement Réunion', repo: 'assainissement-re',
+    url: 'https://gunout.github.io/assainissement-re/',
+    icon: '💧', color: '#1E90FF', category: 'Environnement',
+    description: 'Suivi de l\'assainissement à La Réunion.' },
+
+  { id: 7, name: 'Radar Aérien EU', repo: 'radar-aerien-eu',
+    url: 'https://gunout.github.io/radar-aerien-eu/',
+    icon: '📡', color: '#00e5ff', category: 'Transport aérien',
+    description: 'Radar aérien européen en temps réel.' },
+
+  // ➕ Ajoute ici tes autres démos (jusqu'à 32)
+];
+
+/* ============================================================
+   ICONES AUTO
+   ============================================================ */
+const ICON_RULES = [
+  { kw: ['meteo','météo'], icon: '🌴', color: '#00ff88' },
+  { kw: ['requin','shark'], icon: '🦈', color: '#3b82f6' },
+  { kw: ['radar','aerien'], icon: '📡', color: '#00e5ff' },
+  { kw: ['assainissement','eau'], icon: '💧', color: '#1E90FF' },
+  { kw: ['energie','solaire','hydro'], icon: '⚡', color: '#ffb800' },
+  { kw: ['immobilier','dvf'], icon: '🏠', color: '#ffb800' },
+  { kw: ['accessibilite'], icon: '🏘️', color: '#00ff88' },
+  { kw: ['cpf','formation'], icon: '🎓', color: '#a855f7' },
+  { kw: ['reunion','974'], icon: '🇷🇪', color: '#ff3b3b' },
+  { kw: ['express','transport'], icon: '🚄', color: '#00e5ff' },
+  { kw: ['dashboard','tableau'], icon: '📊', color: '#00e5ff' },
+  { kw: ['monitor','surveillance'], icon: '📡', color: '#00ff88' },
+  { kw: ['apf','handicap'], icon: '♿', color: '#3b82f6' },
+  { kw: ['hud','interface'], icon: '🎮', color: '#ff6b00' },
+  { kw: ['trading','bourse'], icon: '📈', color: '#00ff88' },
+  { kw: ['spcx','spatial'], icon: '🚀', color: '#3b82f6' },
+  { kw: ['oracle'], icon: '🔮', color: '#a855f7' },
+  { kw: ['player','audio'], icon: '🎵', color: '#ff6b00' }
+];
+
+function getIcon(w){
+  const text = (w.name + ' ' + (w.description || '') + ' ' + (w.category || '')).toLowerCase();
+  for (const r of ICON_RULES){
+    if (r.kw.some(k => text.includes(k))) return { icon: r.icon, color: r.color };
+  }
+  return { icon: '📦', color: '#8ba3c7' };
+}
+
+/* ============================================================
+   ÉTAT
+   ============================================================ */
+let allDemos = [];
+let filteredDemos = [];
+let activeDemo = null;
+let currentMode = 'single';
+let currentFilter = 'all';
+let currentZoom = false;
+let reposMap = {};
+
+/* ============================================================
+   API
+   ============================================================ */
+async function fetchRepos(){
+  const headers = { 'Accept': 'application/vnd.github+json' };
+  if (GITHUB_TOKEN) headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
+  try {
+    const r = await fetch(`${API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`, { headers });
+    if (!r.ok) return [];
+    return await r.json();
+  } catch(e){ return []; }
+}
+
+/* ============================================================
+   BUILD DEMOS
+   ============================================================ */
+function buildDemos(repos){
+  reposMap = {};
+  repos.forEach(r => reposMap[r.name.toLowerCase()] = r);
+
+  const demos = [];
+  const used = new Set();
+
+  // Manuelles
+  DEMOS.forEach(d => {
+    const repo = reposMap[d.repo?.toLowerCase()];
+    used.add(d.repo?.toLowerCase());
+    demos.push({
+      ...d,
+      stars: repo?.stargazers_count || 0,
+      forks: repo?.forks_count || 0,
+      language: repo?.language || 'HTML',
+      updated_at: repo?.updated_at || new Date().toISOString(),
+      html_url: repo?.html_url || `https://github.com/${GITHUB_USERNAME}/${d.repo}`
+    });
+  });
+
+  // Auto-détectées
+  repos.forEach(repo => {
+    if (used.has(repo.name.toLowerCase())) return;
+    const url = repo.homepage || (repo.has_pages ? `https://${GITHUB_USERNAME}.github.io/${repo.name}/` : null);
+    if (!url) return;
+
+    const ic = getIcon({ name: repo.name, description: repo.description });
+    demos.push({
+      id: demos.length + 1,
+      name: repo.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+      repo: repo.name,
+      url: url,
+      icon: ic.icon,
+      color: ic.color,
+      category: 'Divers',
+      description: repo.description || 'Travail numérique en ligne.',
+      stars: repo.stargazers_count || 0,
+      forks: repo.forks_count || 0,
+      language: repo.language || 'HTML',
+      updated_at: repo.updated_at,
+      html_url: repo.html_url
+    });
+  });
+
+  return demos;
+}
+
+/* ============================================================
+   STATS TOPBAR
+   ============================================================ */
+function updateTopStats(){
+  document.getElementById('tbTotal').textContent = allDemos.length;
+  document.getElementById('tbStars').textContent = allDemos.reduce((s,w) => s+w.stars, 0);
+  document.getElementById('gsTotal').textContent = allDemos.length;
+  document.getElementById('gsCats').textContent = new Set(allDemos.map(w => w.category)).size;
+  document.getElementById('gsStars').textContent = allDemos.reduce((s,w) => s+w.stars, 0);
+  document.getElementById('gsLangs').textContent = new Set(allDemos.map(w => w.language)).size;
+  document.getElementById('sysUpdate').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+function renderSidebar(){
+  const list = document.getElementById('sbList');
+  document.getElementById('sbCount').textContent = `${filteredDemos.length} démos en ligne`;
+
+  if (!filteredDemos.length){
+    list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px">Aucune démo</div>';
+    return;
+  }
+
+  list.innerHTML = filteredDemos.map(w => `
+    <div class="sb-item ${activeDemo && activeDemo.id === w.id ? 'active' : ''}" data-id="${w.id}">
+      <div class="sb-item-h">
+        <span class="sb-item-icon" style="color:${w.color}">${w.icon}</span>
+        <span class="sb-item-name">${w.name}</span>
+      </div>
+      <div class="sb-item-meta">
+        <span class="live">● LIVE</span>
+        <span>${w.category}</span>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.sb-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const w = filteredDemos.find(x => x.id === parseInt(el.dataset.id));
+      if (w) selectDemo(w);
+    });
+  });
+}
+
+/* ============================================================
+   FILTRES
+   ============================================================ */
+function renderFilters(){
+  const cats = new Set(allDemos.map(w => w.category));
+  const c = document.getElementById('sbFilters');
+  c.innerHTML = `
+    <button class="sb-filter ${currentFilter === 'all' ? 'active' : ''}" data-cat="all">◆ Tout (${allDemos.length})</button>
+    ${[...cats].sort().map(cat => {
+      const n = allDemos.filter(w => w.category === cat).length;
+      return `<button class="sb-filter ${currentFilter === cat ? 'active' : ''}" data-cat="${cat}">${cat} (${n})</button>`;
+    }).join('')}
+  `;
+  c.querySelectorAll('.sb-filter').forEach(b => {
+    b.addEventListener('click', () => {
+      currentFilter = b.dataset.cat;
+      renderFilters();
+      applyFilters();
+    });
+  });
+}
+
+/* ============================================================
+   SELECTIONNER UNE DÉMO — IFRAME
+   ============================================================ */
+function selectDemo(w){
+  activeDemo = w;
+
+  // Header
+  document.getElementById('activeIcon').textContent = w.icon;
+  document.getElementById('activeIcon').style.color = w.color;
+  document.getElementById('activeName').textContent = w.name;
+  document.getElementById('activeUrl').textContent = w.url;
+  document.getElementById('openBtn').href = w.url;
+  document.getElementById('codeBtn').href = w.html_url;
+  document.getElementById('fInfoLink').href = w.url;
+
+  // Top bar
+  document.getElementById('tbActive').textContent = w.name.substring(0, 14);
+
+  // Intel panel
+  document.getElementById('ivName').textContent = w.name;
+  document.getElementById('ivCat').textContent = w.category;
+  document.getElementById('ivLang').textContent = w.language;
+  document.getElementById('ivStatus').textContent = '● LIVE';
+
+  // Charger iframe
+  loadIframe(w.url);
+
+  // Re-render sidebar
+  renderSidebar();
+
+  // Si mode grille, rester en grille
+  if (currentMode === 'grid') renderGrid();
+}
+
+function loadIframe(url){
+  const iframe = document.getElementById('mainFrame');
+  const loading = document.getElementById('fLoading');
+  const loadUrl = document.getElementById('fLoadUrl');
+  const info = document.getElementById('fInfo');
+
+  loading.classList.remove('hidden');
+  info.classList.remove('visible');
+  loadUrl.textContent = url;
+
+  iframe.src = url;
+
+  let loaded = false;
+  const timeout = setTimeout(() => {
+    if (!loaded){
+      loading.classList.add('hidden');
+      info.classList.add('visible');
+    }
+  }, 8000);
+
+  iframe.onload = () => {
+    loaded = true;
+    clearTimeout(timeout);
+    setTimeout(() => loading.classList.add('hidden'), 300);
+  };
+}
+
+/* ============================================================
+   MODE GRILLE — APERÇUS
+   ============================================================ */
+function renderGrid(){
+  const grid = document.getElementById('previewsGrid');
+  if (!filteredDemos.length){
+    grid.innerHTML = '<div class="loading">Aucune démo</div>';
+    return;
+  }
+
+  grid.innerHTML = filteredDemos.map(w => `
+    <div class="preview-card" data-id="${w.id}">
+      <div class="preview-head">
+        <div class="preview-title">
+          <span class="ic" style="color:${w.color}">${w.icon}</span>
+          <span>${w.name}</span>
+        </div>
+        <div class="p-badges">
+          <span class="p-badge live">LIVE</span>
+        </div>
+      </div>
+
+      <div class="preview-frame-wrap">
+        <iframe class="preview-frame" src="${w.url}" loading="lazy"
+          sandbox="allow-scripts allow-same-origin"></iframe>
+        <div class="preview-overlay">
+          <button class="preview-btn">▶ Afficher en grand</button>
+        </div>
+      </div>
+
+      <div class="p-metrics">
+        <div class="p-metric"><div class="v amber">${w.stars}</div><div class="l">★</div></div>
+        <div class="p-metric"><div class="v">${w.forks}</div><div class="l">🍴</div></div>
+        <div class="p-metric"><div class="v">${w.language}</div><div class="l">Lang</div></div>
+      </div>
+
+      <div class="preview-foot">
+        <span>${w.category}</span>
+        <span>🌐 En ligne</span>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.preview-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const w = filteredDemos.find(x => x.id === parseInt(card.dataset.id));
+      if (w){
+        selectDemo(w);
+        switchMode('single');
+      }
+    });
+  });
+}
+
+/* ============================================================
+   MODE
+   ============================================================ */
+function switchMode(mode){
+  currentMode = mode;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === mode));
+  document.getElementById('viewMain').style.display = mode === 'single' ? 'block' : 'none';
+  document.getElementById('viewGrid').style.display = mode === 'grid' ? 'block' : 'none';
+  document.getElementById('sysMode').textContent = mode === 'single' ? 'iframe' : 'grid';
+  if (mode === 'grid') renderGrid();
+}
+
+/* ============================================================
+   ZOOM
+   ============================================================ */
+function toggleZoom(){
+  currentZoom = !currentZoom;
+  const iframe = document.getElementById('mainFrame');
+  iframe.style.transform = currentZoom ? 'scale(1.15)' : 'scale(1)';
+  iframe.style.transition = 'transform 0.25s';
+  document.getElementById('zoomBtn').textContent = currentZoom ? '🔍 Zoom off' : '🔍 Zoom';
+}
+
+/* ============================================================
+   FILTRES
+   ============================================================ */
+function applyFilters(){
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  let result = [...allDemos];
+
+  if (currentFilter !== 'all'){
+    result = result.filter(w => w.category === currentFilter);
+  }
+  if (search){
+    result = result.filter(w =>
+      w.name.toLowerCase().includes(search) ||
+      w.description.toLowerCase().includes(search) ||
+      w.category.toLowerCase().includes(search)
+    );
+  }
+
+  filteredDemos = result;
+  renderSidebar();
+  if (currentMode === 'grid') renderGrid();
+}
+
+/* ============================================================
+   PANNEAU DROITE — TOP & CATS
+   ============================================================ */
+function renderRightPanels(){
+  // Top démos
+  const top = [...allDemos].sort((a,b) => b.stars - a.stars).slice(0, 6);
+  document.getElementById('topList').innerHTML = top.length ? top.map((w, i) => `
+    <div class="intel-row">
+      <span class="k" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:150px">
+        ${i+1}. ${w.name}
+      </span>
+      <span class="v amber">★ ${w.stars}</span>
+    </div>
+  `).join('') : '<div style="color:var(--text-2);font-size:9px;text-align:center;padding:8px">—</div>';
+
+  // Catégories
+  const cats = {};
+  allDemos.forEach(w => { cats[w.category] = (cats[w.category] || 0) + 1; });
+  const sorted = Object.entries(cats).sort((a,b) => b[1] - a[1]);
+  const total = sorted.reduce((s,[,c]) => s+c, 0);
+  document.getElementById('catList').innerHTML = sorted.map(([cat, count]) => {
+    const pct = (count/total*100).toFixed(0);
+    return `
+      <div class="intel-row" style="flex-direction:column;align-items:stretch;gap:4px">
+        <div style="display:flex;justify-content:space-between">
+          <span class="k">${cat}</span>
+          <span class="v cyan">${count} · ${pct}%</span>
+        </div>
+        <div class="progress"><div class="progress-fill" style="width:${pct}%"></div></div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+async function init(){
+  try {
+    const repos = await fetchRepos();
+    allDemos = buildDemos(repos);
+    allDemos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    filteredDemos = allDemos;
+
+    updateTopStats();
+    renderFilters();
+    renderSidebar();
+    renderRightPanels();
+
+    if (allDemos.length) selectDemo(allDemos[0]);
+  } catch(err){
+    document.getElementById('sbList').innerHTML = `<div class="error-box">❌ ${err.message}</div>`;
+  }
+}
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+document.getElementById('reloadBtn').addEventListener('click', () => {
+  if (activeDemo) loadIframe(activeDemo.url);
+});
+document.getElementById('zoomBtn').addEventListener('click', toggleZoom);
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => switchMode(t.dataset.tab));
+});
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
