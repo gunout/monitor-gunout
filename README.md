@@ -1,14 +1,15 @@
 # 🇷🇪 Reunion Monitor — Dashboard des travaux numériques Réunion
 
-> **Monitor temps réel** qui intègre et affiche directement **toutes mes démos en ligne liées à La Réunion** dans une interface type *World Monitor* : iframe intégrée, panneaux d'intelligence, sidebar interactive et détection automatique via l'API GitHub.
+> **Monitor temps réel** qui intègre et affiche directement **toutes mes démos en ligne liées à La Réunion** dans une interface type *World Monitor* : iframes intégrées, panneaux d'intelligence, sidebar interactive et détection automatique via l'API GitHub.
 
-[![GitHub repo](https://img.shields.io/badge/GitHub-gunout%2Freunion--monitor-blue?logo=github)](https://github.com/gunout/reunion-monitor)
-[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/gunout/reunion-monitor)
-[![Licence](https://img.shields.io/badge/licence-MIT-red)](https://github.com/gunout/reunion-monitor/blob/main/LICENSE)
-[![Statut](https://img.shields.io/badge/statut-production-success)](https://gunout.github.io/reunion-monitor/)
-[![Démos](https://img.shields.io/badge/d%C3%A9mos-32%20en%20ligne-green)](https://gunout.github.io/reunion-monitor/)
-[![Responsive](https://img.shields.io/badge/responsive-mobile%20%7C%20tablette%20%7C%204K-informational)](https://gunout.github.io/reunion-monitor/)
-[![Dark Mode](https://img.shields.io/badge/theme-dark-black)](https://gunout.github.io/reunion-monitor/)
+[![Site live](https://img.shields.io/badge/site-live-00ff88?logo=github)](https://gunout.github.io/monitor-gunout/)
+[![GitHub repo](https://img.shields.io/badge/GitHub-gunout%2Fmonitor--gunout-blue?logo=github)](https://github.com/gunout/monitor-gunout)
+[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/gunout/monitor-gunout)
+[![Licence](https://img.shields.io/badge/licence-MIT-red)](https://github.com/gunout/monitor-gunout/blob/main/LICENSE)
+[![Démos](https://img.shields.io/badge/d%C3%A9mos-64%20en%20ligne-green)](https://gunout.github.io/monitor-gunout/)
+[![Responsive](https://img.shields.io/badge/responsive-mobile%20%7C%20tablette%20%7C%204K-informational)](https://gunout.github.io/monitor-gunout/)
+[![Theme](https://img.shields.io/badge/theme-dark%20%2F%20cyan-black)](https://gunout.github.io/monitor-gunout/)
+[![Statut](https://img.shields.io/badge/statut-production-success)](https://gunout.github.io/monitor-gunout/)
 
 ---
 
@@ -16,12 +17,12 @@
 
 | Ressource | Lien |
 |-----------|------|
-| 📦 **Dépôt GitHub** | [github.com/gunout/reunion-monitor](https://github.com/gunout/reunion-monitor) |
-| 🌐 **Démo en ligne** | [gunout.github.io/reunion-monitor](https://gunout.github.io/reunion-monitor/) |
-| 📄 **Code source** | [index.html](https://github.com/gunout/reunion-monitor/blob/main/index.html) |
-| 🐛 **Signaler un bug** | [Issues](https://github.com/gunout/reunion-monitor/issues) |
-| 💡 **Proposer une idée** | [Discussions](https://github.com/gunout/reunion-monitor/discussions) |
-| ⭐ **Mettre une étoile** | [Star le repo](https://github.com/gunout/reunion-monitor) |
+| 🌐 **Démo en ligne** | [gunout.github.io/monitor-gunout](https://gunout.github.io/monitor-gunout/) |
+| 📦 **Dépôt GitHub** | [github.com/gunout/monitor-gunout](https://github.com/gunout/monitor-gunout) |
+| 📄 **Code source** | [index.html](https://github.com/gunout/monitor-gunout/blob/main/index.html) |
+| 🐛 **Signaler un bug** | [Issues](https://github.com/gunout/monitor-gunout/issues) |
+| 💡 **Proposer une idée** | [Discussions](https://github.com/gunout/monitor-gunout/discussions) |
+| ⭐ **Mettre une étoile** | [Star le repo](https://github.com/gunout/monitor-gunout) |
 
 ---
 
@@ -37,6 +38,7 @@
 - [Personnalisation](#-personnalisation)
 - [Compatibilité](#-compatibilité)
 - [Limitations](#-limitations)
+- [Roadmap](#-roadmap)
 - [Contribuer](#-contribuer)
 - [Licence](#-licence)
 - [Remerciements](#-remerciements)
@@ -45,21 +47,25 @@
 
 ## 🌟 Aperçu
 
-**Reunion Monitor** est un dashboard sombre (dark theme) qui :
+**Reunion Monitor** est un dashboard **sombre et dense** qui :
 
 - **Détecte automatiquement** toutes mes démos en ligne hébergées sur GitHub Pages, Vercel, Netlify ou tout autre hébergeur
 - **Affiche chaque démo directement dans une iframe intégrée** — pas de redirection, l'utilisateur reste dans le monitor
 - **Organise les travaux par catégories** : Météo, Mer & Sécurité, Immobilier, Formation, Transport, Environnement…
-- **Fournit un panneau d'intelligence** : statistiques, top démos, répartition, statut live
+- **Fournit un panneau d'intelligence** : statistiques en direct, top démos, répartition, statut live
 
-### Interface inspirée de World Monitor
+### 🌐 Accès direct
+
+👉 **Voir le monitor en direct** : [gunout.github.io/monitor-gunout](https://gunout.github.io/monitor-gunout/)
+
+### 🎨 Interface inspirée de World Monitor
 
 | Élément | Description |
 |---------|-------------|
 | 🎨 **Thème sombre** | Fond `#050810`, panneaux `#0f1624`, accent cyan `#00e5ff` |
 | 📊 **3 colonnes** | Sidebar gauche · Iframe centrale · Intelligence droite |
 | 🔴 **Live indicators** | Points pulsants verts pour les démos actives |
-| 📡 **Panneaux empilés** | Statistiques, top, catégories, système |
+| 📡 **Panneaux empilés** | Statistiques, top démos, catégories, système |
 | 🖥️ **Iframe plein écran** | Chaque démo s'affiche dans le panneau central |
 
 ---
@@ -70,6 +76,7 @@
 - Récupère **tous les repos publics** de `@gunout` via l'API GitHub REST
 - Détecte ceux qui ont un `homepage` ou `has_pages` activé
 - Détecte automatiquement ceux liés à La Réunion via mots-clés (reunion, 974, drom, cyclone, requin…)
+- **64 démos détectées** automatiquement au démarrage
 
 ### 🖥️ Affichage en iframe intégré
 - **Mode « Travail actif »** : une démo affichée en plein écran dans l'iframe centrale
@@ -81,7 +88,7 @@
 ### 📚 Sidebar interactive
 - Liste complète des démos avec icône, catégorie et statut
 - **Recherche instantanée** (nom, description, catégorie)
-- **Filtres par catégorie** avec compteurs
+- **Filtres par catégorie** avec compteurs dynamiques
 
 ### 🎛️ Contrôles du travail actif
 - 🔄 **Recharger** l'iframe
@@ -94,13 +101,13 @@
 - **Statistiques globales** : total, catégories, stars, langages
 - **Top démos** : classement par étoiles
 - **Catégories** : répartition avec barres de progression
-- **Système** : source, user, MAJ, mode actuel
+- **Système** : source, user, dernière MAJ, mode actuel
 
 ---
 
 ## 📦 Démos intégrées
 
-Le monitor intègre actuellement **32 démos en ligne** liées à La Réunion :
+Le monitor intègre actuellement **64 démos en ligne** liées à La Réunion.
 
 ### 🌴 Météo & Environnement
 | # | Démo | Catégorie | Statut |
@@ -125,14 +132,17 @@ Le monitor intègre actuellement **32 démos en ligne** liées à La Réunion :
 | 6 | Reunion Express | Transport | ✅ LIVE |
 | 7 | Radar Aérien EU | Transport aérien | ✅ LIVE |
 
-> *(Les 25 autres démos sont détectées automatiquement depuis GitHub)*
+### 📊 Autres catégories (détection automatique)
+Énergie · Politique · Santé · Science · Média · Data · Éducation…
+
+> *Les autres démos sont détectées automatiquement depuis GitHub et catégorisées par mots-clés.*
 
 ---
 
 ## 🏗️ Architecture
 
 ```
-reunion-monitor/
+monitor-gunout/
 ├── index.html              # Dashboard complet (fichier unique)
 ├── README.md               # Ce fichier
 ├── LICENSE                 # Licence MIT
@@ -146,18 +156,18 @@ reunion-monitor/
 
 ```
 ├── <head>
-│   └── Styles CSS (thème sombre, World Monitor style)
+│   └── Styles CSS (thème sombre World Monitor, responsive)
 ├── <body>
-│   ├── Topbar (navigation + stats)
+│   ├── Topbar (navigation onglets + stats live)
 │   └── App 3 colonnes
-│       ├── Sidebar gauche (liste + filtres + recherche)
+│       ├── Sidebar gauche (liste démos + filtres + recherche)
 │       ├── Centre (iframe + contrôles + grille aperçus)
 │       └── Panneau droit (intelligence + stats)
 └── <script>
     ├── Configuration (GITHUB_USERNAME, DEMOS, ICON_RULES)
-    ├── API GitHub (fetch repos)
+    ├── API GitHub (fetch repos avec pagination)
     ├── Détection démos (homepage + has_pages)
-    ├── Rendu iframe (chargement + anti-iframe detection)
+    ├── Rendu iframe (chargement + anti-iframe detection + timeout)
     ├── Rendu grille (aperçus live miniatures)
     └── Événements (navigation, filtres, modes)
 ```
@@ -172,13 +182,17 @@ Aucun — le monitor est **100 % client-side** (HTML + CSS + JavaScript pur).
 ### Option 1 : Cloner le dépôt
 
 ```bash
-git clone https://github.com/gunout/reunion-monitor.git
-cd reunion-monitor
+git clone https://github.com/gunout/monitor-gunout.git
+cd monitor-gunout
 ```
 
 Puis ouvrez `index.html` dans un navigateur moderne.
 
-### Option 2 : Hébergement local
+### Option 2 : Télécharger directement
+
+Téléchargez [index.html](https://github.com/gunout/monitor-gunout/blob/main/index.html) et ouvrez-le dans un navigateur.
+
+### Option 3 : Hébergement local
 
 ```bash
 # Avec Python
@@ -196,11 +210,11 @@ npx serve
 
 Le monitor est **100 % statique** (un seul fichier `index.html`).
 
-### ⭐ GitHub Pages (recommandé)
+### ⭐ GitHub Pages (déjà configuré)
 
 **Déploiement automatique à chaque `push` sur `main`.**
 
-**URL de production** : [https://gunout.github.io/reunion-monitor/](https://gunout.github.io/reunion-monitor/)
+**URL de production** : [https://gunout.github.io/monitor-gunout/](https://gunout.github.io/monitor-gunout/)
 
 Activation manuelle :
 1. **Settings → Pages**
@@ -210,11 +224,28 @@ Activation manuelle :
 
 ### ▲ Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/gunout/reunion-monitor)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/gunout/monitor-gunout)
+
+```bash
+npm i -g vercel
+vercel
+```
 
 ### 🟢 Netlify
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gunout/reunion-monitor)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/gunout/monitor-gunout)
+
+```bash
+npm i -g netlify-cli
+netlify deploy --prod
+```
+
+### ☁️ Cloudflare Pages
+
+1. [pages.cloudflare.com](https://pages.cloudflare.com)
+2. Connecter GitHub → `gunout/monitor-gunout`
+3. Build : *(laisser vide)* · Output : `/`
+4. **Save and Deploy**
 
 ---
 
@@ -233,17 +264,9 @@ Activation manuelle :
 - **Recherche** → filtre en temps réel
 - **Filtres catégorie** → restreint l'affichage
 - **🔄 Recharger** → force le rechargement de l'iframe
-- **🔍 Zoom** → agrandit la vue de l'iframe
+- **🔍 Zoom** → agrandit la vue de l'iframe (115%)
 - **🚀 Ouvrir** → ouvre la démo dans un nouvel onglet
-
-### Raccourcis clavier *(à venir)*
-
-| Touche | Action |
-|--------|--------|
-| `↑` / `↓` | Navigation entre les démos |
-| `Entrée` | Ouvrir la démo active |
-| `/` | Focus sur la recherche |
-| `Échap` | Fermer la recherche |
+- **📦 Code** → accède au repo GitHub
 
 ---
 
@@ -269,6 +292,14 @@ const DEMOS = [
 ];
 ```
 
+### Exclure une démo du monitor
+
+Pour éviter l'auto-référence (le monitor ne doit pas s'afficher lui-même) :
+
+```javascript
+const SELF_REPOS = ['monitor-gunout'];
+```
+
 ### Modifier les couleurs
 
 Dans le `<style>`, modifie les variables CSS :
@@ -276,10 +307,12 @@ Dans le `<style>`, modifie les variables CSS :
 ```css
 :root {
   --bg-0: #050810;      /* Fond principal */
+  --bg-1: #0a0f1a;      /* Fond secondaire */
   --cyan: #00e5ff;      /* Accent live */
   --green: #00ff88;     /* Statut LIVE */
   --red: #ff3b3b;       /* Alertes */
   --amber: #ffb800;     /* Warnings */
+  --purple: #a855f7;    /* Accent secondaire */
 }
 ```
 
@@ -329,12 +362,23 @@ Certains sites déploient des protections anti-iframe :
 - **Content-Security-Policy** avec `frame-ancestors`
 - **Cookies SameSite** stricts
 
-**GitHub Pages n'ajoute PAS ces en-têtes** → ✅ tes démos s'afficheront bien
+**GitHub Pages n'ajoute PAS ces en-têtes** → ✅ tes démos s'affichent bien
 
 **Si une démo bloque**, le monitor :
-1. Détecte après 8 secondes
+1. Détecte après **15 secondes** (timeout étendu)
 2. Affiche un message d'information
 3. Propose un lien direct d'ouverture
+
+### Auto-référence
+
+Le monitor **s'exclut automatiquement** de la liste des démos pour éviter une boucle infinie (un site ne peut pas s'afficher lui-même dans son propre iframe).
+
+### Limite API GitHub
+
+- **60 requêtes/heure** sans token
+- **5000 requêtes/heure** avec token personnel
+
+Le monitor charge les données **une seule fois au démarrage** (pas de polling), donc cette limite n'est pas un problème en usage normal.
 
 ### Pour forcer l'intégration sur tes propres sites
 
@@ -345,12 +389,27 @@ Content-Security-Policy: frame-ancestors *
 X-Frame-Options: ALLOWALL
 ```
 
-### Limite API GitHub
+---
 
-- **60 requêtes/heure** sans token
-- **5000 requêtes/heure** avec token personnel
+## 🗺️ Roadmap
 
-Le monitor charge les données **une seule fois au démarrage** (pas de polling), donc cette limite n'est pas un problème en usage normal.
+### Version 1.1 (prochaine)
+- [ ] Exclusion automatique du monitor lui-même
+- [ ] Timeout étendu à 15s pour les iframes lentes
+- [ ] Détection intelligente des vraies erreurs (pas juste la lenteur)
+
+### Version 1.2
+- [ ] Raccourcis clavier (navigation ↑↓, recherche `/`, `Échap`)
+- [ ] Mode comparaison (2 iframes côte à côte)
+- [ ] Historique de navigation (retour / suivant)
+- [ ] Favoris (localStorage)
+
+### Version 2.0
+- [ ] Test réel du statut HTTP (200 / 404)
+- [ ] Cache local des métadonnées GitHub
+- [ ] PWA (installation mobile + service worker)
+- [ ] Mode clair
+- [ ] Notifications quand une démo tombe
 
 ---
 
@@ -358,7 +417,7 @@ Le monitor charge les données **une seule fois au démarrage** (pas de polling)
 
 Les contributions sont les bienvenues !
 
-1. **Fork** : [github.com/gunout/reunion-monitor/fork](https://github.com/gunout/reunion-monitor/fork)
+1. **Fork** : [github.com/gunout/monitor-gunout/fork](https://github.com/gunout/monitor-gunout/fork)
 2. **Créer une branche** : `git checkout -b feature/ma-fonctionnalite`
 3. **Commit** : `git commit -m 'Ajout nouvelle fonctionnalité'`
 4. **Push** : `git push origin feature/ma-fonctionnalite`
@@ -366,22 +425,19 @@ Les contributions sont les bienvenues !
 
 ### Idées d'amélioration
 
-- [ ] Raccourcis clavier (navigation ↑↓, recherche `/`)
-- [ ] Mode comparaison (2 iframes côte à côte)
-- [ ] Historique de navigation
-- [ ] Favoris (localStorage)
-- [ ] Export JSON du catalogue
-- [ ] Notifications quand une démo tombe
-- [ ] Détection automatique du statut HTTP (200/404)
-- [ ] Cache local des métadonnées GitHub
-- [ ] PWA (installation mobile)
-- [ ] Mode clair
+- [ ] Détection automatique du statut HTTP live
+- [ ] Système de tags personnalisés
+- [ ] Vue timeline (chronologie des déploiements)
+- [ ] Recherche avancée avec opérateurs (`cat:meteo lang:js`)
+- [ ] Export du catalogue en JSON
+- [ ] Widget embarquable pour sites tiers
+- [ ] Mode présentation (plein écran sans UI)
 
 ---
 
 ## 📄 Licence
 
-Ce projet est sous licence **MIT** — voir [LICENSE](https://github.com/gunout/reunion-monitor/blob/main/LICENSE).
+Ce projet est sous licence **MIT** — voir [LICENSE](https://github.com/gunout/monitor-gunout/blob/main/LICENSE).
 
 ```
 MIT License
@@ -421,14 +477,15 @@ SOFTWARE.
 ## 📞 Contact
 
 - **GitHub** : [@gunout](https://github.com/gunout)
-- **Issues** : [github.com/gunout/reunion-monitor/issues](https://github.com/gunout/reunion-monitor/issues)
-- **Discussions** : [github.com/gunout/reunion-monitor/discussions](https://github.com/gunout/reunion-monitor/discussions)
+- **Site** : [gunout.github.io/monitor-gunout](https://gunout.github.io/monitor-gunout/)
+- **Issues** : [github.com/gunout/monitor-gunout/issues](https://github.com/gunout/monitor-gunout/issues)
+- **Discussions** : [github.com/gunout/monitor-gunout/discussions](https://github.com/gunout/monitor-gunout/discussions)
 
 ---
 
 <div align="center">
 
-**🇷🇪 Fait pour La Réunion 🇷🇪**
+**🇷🇪 Fait avec ❤️ pour La Réunion 🇷🇪**
 
 [⬆ Retour en haut](#-reunion-monitor--dashboard-des-travaux-numériques-réunion)
 
