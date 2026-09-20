@@ -144,7 +144,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 /* ========== VIEW / IFRAME ========== */
 .view{flex:1;position:relative;overflow:hidden;background:var(--bg-1);min-height:0}
 
-/* FORCE iframe visible partout */
 .view .frame-wrap{
   position:absolute;
   inset:0;
@@ -267,11 +266,35 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .error-box{background:rgba(255,59,59,0.08);border:1px solid var(--red);color:var(--red);
   padding:12px;border-radius:5px;font-family:var(--font-mono);font-size:10px;margin:12px}
 
+/* ========== BOUTON TOGGLE INTELLIGENCE (mobile only) ========== */
+.intel-toggle{
+  display:none;
+  width:100%;
+  background:var(--bg-2);
+  border:none;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  color:var(--cyan);
+  font-family:var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  padding:12px;
+  cursor:pointer;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.intel-toggle:hover{background:var(--bg-3)}
+
 /* ============================================================
    RESPONSIVE — TABLETTES
    ============================================================ */
 @media(max-width:900px){
   body{overflow-y:auto;overflow-x:hidden}
+
+  /* Réorganisation : on force l'ordre visuel */
   .app{
     display:flex;
     flex-direction:column;
@@ -279,36 +302,53 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     min-height:calc(100vh - 50px);
     overflow:visible;
   }
+  /* Ordre explicite : sidebar (1) → center (2) → right (3) */
+  .sidebar{order:1}
+  .center{order:2}
+  .right{order:3}
+
   .sidebar{
     width:100%;
     max-height:none;
     border-right:none;
     border-bottom:1px solid var(--border);
   }
-  .sb-list{max-height:280px}
-  .sb-filters{max-height:120px}
+  .sb-list{max-height:240px}
+  .sb-filters{max-height:110px}
+
   .center{
     width:100%;
-    min-height:auto;
-    border-bottom:1px solid var(--border);
+    border-bottom:none;
     display:flex;
     flex-direction:column;
+    background:var(--bg-0);
   }
+
+  /* L'iframe prend toute la largeur et ~65vh */
   .view{
     position:relative;
     width:100%;
-    height:75vh;
-    min-height:420px;
+    height:70vh;
+    min-height:400px;
+    max-height:80vh;
     flex:none;
   }
   .view .frame-wrap{inset:0;padding:6px}
   .f-loading{inset:6px}
+
+  /* Bouton toggle visible sur mobile/tablette */
+  .intel-toggle{display:flex}
+
   .right{
     width:100%;
     max-height:none;
     border-left:none;
+    border-top:none;
+    display:none; /* masqué par défaut sur mobile */
   }
-  .rs-body{max-height:500px}
+  .right.open{display:flex}
+
+  .rs-body{max-height:none;padding:10px}
   .tabs{order:3;width:100%;margin-left:0}
   .topbar-right{order:2;margin-left:auto}
   .brand .sub{display:inline}
@@ -329,23 +369,23 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   .tab{font-size:10px;padding:7px 12px}
 
   .sidebar{max-height:none}
-  .sb-list{max-height:240px}
-  .sb-filters{max-height:100px}
+  .sb-list{max-height:200px}
+  .sb-filters{max-height:90px}
 
-  .work-bar{padding:10px;gap:8px;flex-direction:column;align-items:stretch}
+  .work-bar{padding:8px 10px;gap:6px;flex-direction:column;align-items:stretch}
   .work-bar-info{min-width:0}
-  .work-bar-title{font-size:13px}
-  .work-bar-title .ic{font-size:17px}
-  .work-bar-url{font-size:9px}
-  .work-bar-actions{width:100%;gap:6px}
-  .wb-btn{flex:1;justify-content:center;font-size:10px;padding:8px 10px;min-width:0}
+  .work-bar-title{font-size:12px}
+  .work-bar-title .ic{font-size:16px}
+  .work-bar-url{font-size:8.5px}
+  .work-bar-actions{width:100%;gap:5px}
+  .wb-btn{flex:1;justify-content:center;font-size:9.5px;padding:7px 6px;min-width:0}
 
   .view{
-    height:70vh;
-    min-height:400px;
+    height:65vh;
+    min-height:380px;
+    max-height:75vh;
   }
-  .view .frame-wrap{inset:0;padding:5px}
-  .f-loading{inset:5px}
+  .view .frame-wrap{inset:0;padding:4px}
 
   .mode-tabs{padding:6px 8px;overflow-x:auto;scrollbar-width:none}
   .mode-tabs::-webkit-scrollbar{display:none}
@@ -355,12 +395,11 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   .previews{grid-template-columns:1fr;gap:10px}
   .preview-frame-wrap{height:180px}
 
-  .rs-body{max-height:none;padding:10px}
   .intel-row{font-size:9.5px}
   .intel-row .v{max-width:130px}
 
-  .sb-item{padding:9px 10px}
-  .sb-item-name{font-size:10.5px}
+  .sb-item{padding:8px 9px}
+  .sb-item-name{font-size:10px}
 }
 
 /* ============================================================
@@ -371,10 +410,10 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   .brand .dot{width:6px;height:6px}
   .topbar-right{font-size:9px;gap:8px}
   .tab{font-size:9px;padding:6px 9px}
-  .wb-btn{font-size:9px;padding:7px 6px}
+  .wb-btn{font-size:9px;padding:6px 5px}
   .wb-btn span.lbl{display:none}
   .preview-frame-wrap{height:150px}
-  .view{height:65vh;min-height:360px}
+  .view{height:60vh;min-height:340px}
 }
 </style>
 </head>
@@ -464,8 +503,13 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     </div>
   </main>
 
+  <!-- BOUTON TOGGLE INTELLIGENCE (mobile) -->
+  <button class="intel-toggle" id="intelToggle">
+    ◆ INTELLIGENCE <span id="intelArrow">▼</span>
+  </button>
+
   <!-- SIDEBAR DROITE -->
-  <aside class="right">
+  <aside class="right" id="rightPanel">
     <div class="rs-head">◆ INTELLIGENCE</div>
     <div class="rs-body">
       <div class="intel-panel">
@@ -776,6 +820,13 @@ function selectDemo(w){
   renderSidebar();
 
   if (currentMode === 'grid') renderGrid();
+
+  // Sur mobile : on scrolle automatiquement vers l'iframe
+  if (window.innerWidth <= 900){
+    setTimeout(() => {
+      document.querySelector('.view')?.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 100);
+  }
 }
 
 /* ============================================================
@@ -794,11 +845,9 @@ function loadIframe(url){
 
   let loaded = false;
 
-  // Timeout : si rien ne charge après 8s, c'est probablement bloqué
   const timeout = setTimeout(() => {
     if (!loaded){
       loading.classList.add('hidden');
-      // On ne montre pas l'info systématiquement (le site peut être juste lent)
       console.warn('⏱️ Chargement lent ou bloqué:', url);
     }
   }, 8000);
@@ -806,19 +855,14 @@ function loadIframe(url){
   iframe.onload = () => {
     loaded = true;
     clearTimeout(timeout);
-    // Petit délai pour laisser le rendu se faire
     setTimeout(() => loading.classList.add('hidden'), 300);
 
-    // Détection anti-iframe : si le contenu est vide (about:blank garde l'URL précédente)
     try {
       const doc = iframe.contentDocument || iframe.contentWindow?.document;
-      // Si on peut accéder et que c'est vide → probablement bloqué
       if (doc && doc.body && doc.body.innerHTML.trim() === ''){
         info.classList.add('visible');
       }
-    } catch(e){
-      // Cross-origin → normal, on laisse charger
-    }
+    } catch(e) {}
   };
 
   iframe.onerror = () => {
@@ -964,6 +1008,25 @@ function renderRightPanels(){
 }
 
 /* ============================================================
+   TOGGLE INTELLIGENCE (mobile)
+   ============================================================ */
+function setupIntelToggle(){
+  const btn = document.getElementById('intelToggle');
+  const panel = document.getElementById('rightPanel');
+  const arrow = document.getElementById('intelArrow');
+
+  btn.addEventListener('click', () => {
+    panel.classList.toggle('open');
+    arrow.textContent = panel.classList.contains('open') ? '▲' : '▼';
+    if (panel.classList.contains('open')){
+      setTimeout(() => {
+        panel.scrollIntoView({behavior:'smooth', block:'start'});
+      }, 100);
+    }
+  });
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 async function init(){
@@ -988,6 +1051,7 @@ async function init(){
     renderRightPanels();
 
     if (allDemos.length) selectDemo(allDemos[0]);
+    setupIntelToggle();
   } catch(err){
     list.innerHTML = `<div class="error-box">❌ ${err.message}</div>`;
   }
