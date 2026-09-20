@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>🇷🇪 Reunion Monitor — Toutes mes démos en ligne</title>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -16,9 +16,9 @@
   --font-mono:'SF Mono',Menlo,Consolas,monospace;
   --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
 }
-html,body{height:100%;overflow:hidden}
+html{height:100%}
 body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
-  font-size:12px;line-height:1.4}
+  font-size:12px;line-height:1.4;min-height:100%;overflow-x:hidden}
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:var(--bg-1)}
 ::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:3px}
@@ -26,9 +26,9 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 
 /* ========== TOPBAR RESPONSIVE ========== */
 .topbar{
-  min-height:50px;height:auto;background:linear-gradient(180deg,#0a0f1a,#050810);
+  min-height:50px;background:linear-gradient(180deg,#0a0f1a,#050810);
   border-bottom:1px solid var(--border);display:flex;align-items:center;
-  padding:6px 12px;gap:10px;position:relative;z-index:100;flex-wrap:wrap;
+  padding:6px 12px;gap:10px;position:sticky;top:0;z-index:100;flex-wrap:wrap;
 }
 .brand{font-family:var(--font-mono);font-size:12px;font-weight:700;
   color:var(--cyan);letter-spacing:1px;display:flex;align-items:center;gap:6px;
@@ -39,7 +39,8 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .brand .sub{color:var(--text-2);font-weight:400;font-size:11px;display:none}
 
 .tabs{display:flex;gap:2px;order:3;width:100%;overflow-x:auto;padding-bottom:2px;
-  -webkit-overflow-scrolling:touch}
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
 .tab{background:transparent;border:none;color:var(--text-1);font-family:var(--font-mono);
   font-size:10px;font-weight:600;padding:7px 12px;border-radius:4px;cursor:pointer;
   letter-spacing:0.5px;transition:all 0.15s;display:flex;align-items:center;gap:5px;
@@ -54,65 +55,105 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .topbar-stat .val.green{color:var(--green)}
 .topbar-stat .val.amber{color:var(--amber)}
 
-/* ========== APP RESPONSIVE ========== */
+/* ========== APP DESKTOP ========== */
 .app{display:grid;grid-template-columns:280px 1fr 300px;height:calc(100vh - 50px);overflow:hidden}
 
-/* Très grands écrans */
 @media(min-width:1600px){
   .app{grid-template-columns:340px 1fr 360px}
 }
-
-/* Écrans moyens */
 @media(max-width:1200px){
   .app{grid-template-columns:240px 1fr 260px}
 }
 
-/* Tablettes */
+/* ========== TABLETTES ========== */
 @media(max-width:900px){
-  html,body{overflow:auto;height:auto}
-  .app{grid-template-columns:1fr;grid-template-rows:auto auto auto;height:auto;overflow:visible}
-  .sidebar{max-height:260px;border-right:none;border-bottom:1px solid var(--border)}
-  .right{max-height:420px;border-left:none;border-top:1px solid var(--border)}
-  .center{min-height:60vh}
+  body{overflow-y:auto;overflow-x:hidden}
+  .app{
+    display:flex;
+    flex-direction:column;
+    height:auto;
+    min-height:calc(100vh - 50px);
+    overflow:visible;
+  }
+  .sidebar{
+    width:100%;
+    max-height:none;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+  .sb-list{max-height:280px}
+  .sb-filters{max-height:120px}
+  .center{
+    width:100%;
+    min-height:auto;
+    border-bottom:1px solid var(--border);
+  }
+  .view{min-height:70vh;height:70vh}
+  .right{
+    width:100%;
+    max-height:none;
+    border-left:none;
+  }
+  .rs-body{max-height:500px}
   .tabs{order:3;width:100%;margin-left:0}
   .topbar-right{order:2;margin-left:auto}
   .brand .sub{display:inline}
 }
 
-/* Mobiles */
+/* ========== MOBILES ========== */
 @media(max-width:600px){
-  .topbar{padding:6px 8px;gap:6px}
-  .brand{font-size:11px}
-  .brand .sub{display:none}
-  .topbar-right{gap:6px;font-size:9px}
-  .topbar-stat .val{font-size:10px}
-  .sidebar{max-height:220px}
-  .right{max-height:360px}
-  .work-bar{padding:8px 10px;gap:8px}
-  .work-bar-title{font-size:12px}
-  .work-bar-title .ic{font-size:16px}
-  .wb-btn{font-size:9px;padding:6px 9px}
-  .previews{grid-template-columns:1fr}
-  .frame-wrap{inset:5px}
-  .f-loading{inset:5px}
-  .mode-tabs{padding:6px 8px}
-  .mode-tab{font-size:9px;padding:5px 8px}
+  body{font-size:12px}
+  .topbar{padding:8px 10px;gap:8px;position:relative}
+  .brand{font-size:12px;width:100%;justify-content:center}
+  .brand .sub{display:inline;font-size:10px}
+  .topbar-right{width:100%;justify-content:center;gap:12px;font-size:10px;
+    padding:4px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    margin:0;order:2}
+  .tabs{order:3;justify-content:center;padding-top:4px}
+  .tab{font-size:10px;padding:7px 12px}
+
+  .sidebar{max-height:none}
+  .sb-list{max-height:240px}
+  .sb-filters{max-height:100px}
+
+  .work-bar{padding:10px;gap:8px;flex-direction:column;align-items:stretch}
+  .work-bar-info{min-width:0}
+  .work-bar-title{font-size:13px}
+  .work-bar-title .ic{font-size:17px}
+  .work-bar-url{font-size:9px}
+  .work-bar-actions{width:100%;gap:6px}
+  .wb-btn{flex:1;justify-content:center;font-size:10px;padding:8px 10px;min-width:0}
+
+  .view{height:65vh;min-height:65vh}
+  .frame-wrap{inset:6px}
+  .f-loading{inset:6px}
+
+  .mode-tabs{padding:6px 8px;overflow-x:auto;scrollbar-width:none}
+  .mode-tabs::-webkit-scrollbar{display:none}
+  .mode-tab{font-size:10px;padding:6px 10px;white-space:nowrap}
+
   .grid-view{padding:10px}
-  .sb-item{padding:8px 9px}
-  .sb-item-name{font-size:10px}
-  .rs-body{padding:8px}
-  .intel-body{padding:8px}
-  .intel-row{font-size:9px}
+  .previews{grid-template-columns:1fr;gap:10px}
+  .preview-frame-wrap{height:180px}
+
+  .rs-body{max-height:none;padding:10px}
+  .intel-row{font-size:9.5px}
+  .intel-row .v{max-width:130px}
+
+  .sb-item{padding:9px 10px}
+  .sb-item-name{font-size:10.5px}
 }
 
-/* Très petits mobiles */
+/* ========== TRÈS PETITS MOBILES ========== */
 @media(max-width:380px){
-  .brand{font-size:10px}
+  .brand{font-size:11px}
   .brand .dot{width:6px;height:6px}
-  .topbar-right{font-size:8px;gap:4px}
-  .tab{font-size:9px;padding:6px 8px}
-  .work-bar-actions{gap:4px}
-  .wb-btn{font-size:8px;padding:5px 7px}
+  .topbar-right{font-size:9px;gap:8px}
+  .tab{font-size:9px;padding:6px 9px}
+  .wb-btn{font-size:9px;padding:7px 6px}
+  .wb-btn span.lbl{display:none}
+  .preview-frame-wrap{height:150px}
+  .view{height:60vh;min-height:60vh}
 }
 
 /* ========== SIDEBAR GAUCHE ========== */
@@ -127,7 +168,8 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 
 .sb-search{padding:8px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
 .sb-search input{width:100%;background:var(--bg-3);border:1px solid var(--border);
-  border-radius:4px;color:var(--text-0);padding:7px 11px;font-size:11px;font-family:var(--font-mono)}
+  border-radius:4px;color:var(--text-0);padding:8px 11px;font-size:12px;
+  font-family:var(--font-mono)}
 .sb-search input:focus{outline:none;border-color:var(--cyan)}
 
 .sb-filters{padding:8px 10px;border-bottom:1px solid var(--border);
@@ -182,7 +224,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .wb-btn.purple{background:var(--purple);color:white;border-color:var(--purple)}
 .wb-btn.purple:hover{background:white;color:var(--purple)}
 
-/* MODE TABS */
 .mode-tabs{display:flex;gap:2px;padding:6px 10px;border-bottom:1px solid var(--border);
   background:var(--bg-2);flex-shrink:0}
 .mode-tab{background:transparent;border:none;color:var(--text-1);font-family:var(--font-mono);
@@ -191,14 +232,12 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .mode-tab:hover{background:var(--bg-3);color:var(--text-0)}
 .mode-tab.active{background:var(--bg-3);color:var(--cyan);box-shadow:inset 0 -2px 0 var(--cyan)}
 
-/* IFRAME */
 .view{flex:1;position:relative;overflow:hidden;background:var(--bg-1);min-height:0}
 .frame-wrap{position:absolute;inset:8px;display:flex;align-items:center;justify-content:center}
 .frame{width:100%;height:100%;border:1px solid var(--border);border-radius:6px;
   background:white;box-shadow:0 6px 30px rgba(0,229,255,0.08);transition:transform 0.25s}
 .frame:hover{box-shadow:0 6px 30px rgba(0,229,255,0.18)}
 
-/* LOADING */
 .f-loading{position:absolute;inset:8px;background:rgba(10,15,26,0.96);
   border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:10px;z-index:5;transition:opacity 0.35s;padding:16px}
@@ -211,7 +250,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   padding:4px 8px;background:var(--bg-3);border-radius:3px;max-width:90%;word-break:break-all;
   text-align:center}
 
-/* INFO ANTI-IFRAME */
 .f-info{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
   background:var(--bg-2);border:1px solid var(--amber);border-radius:6px;
   padding:10px 14px;font-family:var(--font-mono);font-size:9.5px;color:var(--amber);
@@ -219,7 +257,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .f-info.visible{display:block}
 .f-info a{color:var(--green);font-weight:700;text-decoration:none}
 
-/* GRILLE APERÇUS */
 .grid-view{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch}
 .grid-title{font-family:var(--font-mono);font-size:10px;font-weight:700;
   color:var(--cyan);letter-spacing:1.2px;text-transform:uppercase;
@@ -265,7 +302,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .p-metric .l{font-family:var(--font-mono);font-size:7px;color:var(--text-2);
   text-transform:uppercase;margin-top:1px;letter-spacing:0.3px}
 
-/* RIGHT SIDEBAR */
+/* ========== RIGHT SIDEBAR ========== */
 .right{background:var(--bg-1);border-left:1px solid var(--border);
   display:flex;flex-direction:column;overflow:hidden;min-height:0}
 .rs-head{padding:10px 12px;border-bottom:1px solid var(--border);background:var(--bg-2);
@@ -297,29 +334,10 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--cyan-dim),var(--cyan));
   border-radius:2px;transition:width 0.4s}
 
-/* Loading global */
 .loading{text-align:center;padding:40px 16px;color:var(--text-1);
   font-family:var(--font-mono);font-size:10px}
 .error-box{background:rgba(255,59,59,0.08);border:1px solid var(--red);color:var(--red);
   padding:12px;border-radius:5px;font-family:var(--font-mono);font-size:10px;margin:12px}
-
-/* Ajustements mobiles supplémentaires */
-@media(max-width:900px){
-  .frame-wrap{inset:6px}
-  .f-loading{inset:6px}
-  .sb-filters{max-height:120px}
-  .sb-list{max-height:180px}
-  .preview-frame-wrap{height:160px}
-  .topbar-right .topbar-stat span:first-child{display:none}
-}
-@media(max-width:480px){
-  .previews{grid-template-columns:1fr}
-  .work-bar-actions{width:100%;justify-content:flex-start}
-  .wb-btn{flex:1;justify-content:center;min-width:60px}
-  .preview-frame-wrap{height:150px}
-  .sidebar{max-height:200px}
-  .right{max-height:320px}
-}
 </style>
 </head>
 <body>
@@ -329,7 +347,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   <div class="brand">
     <span class="dot"></span>
     REUNION MONITOR
-    <span class="sub">/ toutes mes démos</span>
+    <span class="sub">/ mes démos</span>
   </div>
 
   <div class="tabs">
@@ -358,7 +376,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     </div>
     <div class="sb-filters" id="sbFilters"></div>
     <div class="sb-list" id="sbList">
-      <div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin-bottom:8px"></div>Scan GitHub...</div>
+      <div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin-bottom:8px;margin-left:auto;margin-right:auto"></div>Scan GitHub...</div>
     </div>
   </aside>
 
@@ -373,24 +391,24 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
         <div class="work-bar-url" id="activeUrl">—</div>
       </div>
       <div class="work-bar-actions">
-        <button class="wb-btn cyan" id="reloadBtn">🔄 Recharger</button>
-        <button class="wb-btn purple" id="zoomBtn">🔍 Zoom</button>
-        <a class="wb-btn green" id="openBtn" href="#" target="_blank" rel="noopener">🚀 Ouvrir</a>
-        <a class="wb-btn gray" id="codeBtn" href="#" target="_blank" rel="noopener">📦 Code</a>
+        <button class="wb-btn cyan" id="reloadBtn">🔄 <span class="lbl">Recharger</span></button>
+        <button class="wb-btn purple" id="zoomBtn">🔍 <span class="lbl">Zoom</span></button>
+        <a class="wb-btn green" id="openBtn" href="#" target="_blank" rel="noopener">🚀 <span class="lbl">Ouvrir</span></a>
+        <a class="wb-btn gray" id="codeBtn" href="#" target="_blank" rel="noopener">📦 <span class="lbl">Code</span></a>
       </div>
     </div>
 
     <div class="view" id="viewMain">
       <div class="f-loading" id="fLoading">
         <div class="spin"></div>
-        <div class="f-load-txt">Chargement du travail intégré...</div>
+        <div class="f-load-txt">Chargement...</div>
         <div class="f-load-url" id="fLoadUrl">—</div>
       </div>
       <div class="frame-wrap">
         <iframe class="frame" id="mainFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"></iframe>
       </div>
       <div class="f-info" id="fInfo">
-        ℹ️ Ce travail ne peut pas être intégré directement (protection anti-iframe).<br>
+        ℹ️ Ce travail ne peut pas être intégré (anti-iframe).<br>
         <a id="fInfoLink" href="#" target="_blank">Ouvrir dans un nouvel onglet →</a>
       </div>
     </div>
@@ -416,7 +434,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
       </div>
 
       <div class="intel-panel">
-        <div class="intel-head"><span>📈 STATISTIQUES GLOBALES</span></div>
+        <div class="intel-head"><span>📈 STATISTIQUES</span></div>
         <div class="intel-body">
           <div class="intel-row"><span class="k">Total démos</span><span class="v green" id="gsTotal">—</span></div>
           <div class="intel-row"><span class="k">Catégories</span><span class="v amber" id="gsCats">—</span></div>
@@ -516,9 +534,6 @@ function getIcon(w){
   return { icon: '📦', color: '#8ba3c7' };
 }
 
-/* ============================================================
-   CATÉGORISATION AUTOMATIQUE
-   ============================================================ */
 function getCategory(name, description){
   const t = (name + ' ' + (description || '')).toLowerCase();
   if (t.match(/meteo|météo|weather|cyclone/)) return '🌴 Météo';
@@ -552,9 +567,6 @@ let currentFilter = 'all';
 let currentZoom = false;
 let reposMap = {};
 
-/* ============================================================
-   API
-   ============================================================ */
 async function fetchRepos(){
   const headers = { 'Accept': 'application/vnd.github+json' };
   if (GITHUB_TOKEN) headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
@@ -574,9 +586,6 @@ async function fetchRepos(){
   return repos;
 }
 
-/* ============================================================
-   BUILD DEMOS — DÉTECTION AUTOMATIQUE TOTALE
-   ============================================================ */
 function buildDemos(repos){
   reposMap = {};
   repos.forEach(r => reposMap[r.name.toLowerCase()] = r);
@@ -623,9 +632,6 @@ function buildDemos(repos){
   return demos;
 }
 
-/* ============================================================
-   STATS
-   ============================================================ */
 function updateTopStats(){
   document.getElementById('tbTotal').textContent = allDemos.length;
   document.getElementById('tbCats').textContent = new Set(allDemos.map(w => w.category)).size;
@@ -637,9 +643,6 @@ function updateTopStats(){
   document.getElementById('sysUpdate').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
 }
 
-/* ============================================================
-   SIDEBAR
-   ============================================================ */
 function renderSidebar(){
   const list = document.getElementById('sbList');
   document.getElementById('sbCount').textContent = `${filteredDemos.length} démos · ${new Set(filteredDemos.map(w=>w.category)).size} catégories`;
@@ -670,9 +673,6 @@ function renderSidebar(){
   });
 }
 
-/* ============================================================
-   FILTRES PAR CATÉGORIE
-   ============================================================ */
 function renderFilters(){
   const cats = new Map();
   allDemos.forEach(w => {
@@ -696,9 +696,6 @@ function renderFilters(){
   });
 }
 
-/* ============================================================
-   SÉLECTIONNER UNE DÉMO
-   ============================================================ */
 function selectDemo(w){
   activeDemo = w;
 
@@ -738,7 +735,6 @@ function loadIframe(url){
   const timeout = setTimeout(() => {
     if (!loaded){
       loading.classList.add('hidden');
-      console.log('⏱️ Chargement lent:', url);
     }
   }, 15000);
 
@@ -755,9 +751,6 @@ function loadIframe(url){
   };
 }
 
-/* ============================================================
-   GRILLE D'APERÇUS
-   ============================================================ */
 function renderGrid(){
   const grid = document.getElementById('previewsGrid');
   if (!filteredDemos.length){
@@ -809,9 +802,6 @@ function renderGrid(){
   });
 }
 
-/* ============================================================
-   MODE
-   ============================================================ */
 function switchMode(mode){
   currentMode = mode;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === mode));
@@ -821,19 +811,13 @@ function switchMode(mode){
   if (mode === 'grid') renderGrid();
 }
 
-/* ============================================================
-   ZOOM
-   ============================================================ */
 function toggleZoom(){
   currentZoom = !currentZoom;
   const iframe = document.getElementById('mainFrame');
   iframe.style.transform = currentZoom ? 'scale(1.15)' : 'scale(1)';
-  document.getElementById('zoomBtn').textContent = currentZoom ? '🔍 Zoom off' : '🔍 Zoom';
+  document.getElementById('zoomBtn').innerHTML = currentZoom ? '🔍 <span class="lbl">Zoom off</span>' : '🔍 <span class="lbl">Zoom</span>';
 }
 
-/* ============================================================
-   FILTRES
-   ============================================================ */
 function applyFilters(){
   const search = document.getElementById('searchInput').value.toLowerCase().trim();
   let result = [...allDemos];
@@ -855,9 +839,6 @@ function applyFilters(){
   if (currentMode === 'grid') renderGrid();
 }
 
-/* ============================================================
-   PANNEAU DROITE
-   ============================================================ */
 function renderRightPanels(){
   const top = [...allDemos].sort((a,b) => b.stars - a.stars).slice(0, 8);
   document.getElementById('topList').innerHTML = top.length ? top.map((w, i) => `
@@ -887,12 +868,9 @@ function renderRightPanels(){
   }).join('');
 }
 
-/* ============================================================
-   INIT
-   ============================================================ */
 async function init(){
   const list = document.getElementById('sbList');
-  list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin-bottom:8px"></div>Scan GitHub...</div>';
+  list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin-bottom:8px;margin-left:auto;margin-right:auto"></div>Scan GitHub...</div>';
 
   try {
     const repos = await fetchRepos();
@@ -917,9 +895,6 @@ async function init(){
   }
 }
 
-/* ============================================================
-   EVENTS
-   ============================================================ */
 document.getElementById('searchInput').addEventListener('input', applyFilters);
 document.getElementById('reloadBtn').addEventListener('click', () => {
   if (activeDemo) loadIframe(activeDemo.url);
@@ -930,16 +905,6 @@ document.querySelectorAll('.tab').forEach(t => {
 });
 
 document.addEventListener('DOMContentLoaded', init);
-
-// Ajustement dynamique de la hauteur sur mobile
-function setMobileHeight(){
-  if (window.innerWidth <= 900) {
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-  }
-}
-window.addEventListener('resize', setMobileHeight);
-window.addEventListener('orientationchange', setMobileHeight);
-setMobileHeight();
 </script>
 </body>
 </html>
