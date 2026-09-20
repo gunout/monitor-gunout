@@ -24,7 +24,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 ::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:var(--cyan-dim)}
 
-/* ========== TOPBAR RESPONSIVE ========== */
+/* ========== TOPBAR ========== */
 .topbar{
   min-height:50px;background:linear-gradient(180deg,#0a0f1a,#050810);
   border-bottom:1px solid var(--border);display:flex;align-items:center;
@@ -63,97 +63,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 }
 @media(max-width:1200px){
   .app{grid-template-columns:240px 1fr 260px}
-}
-
-/* ========== TABLETTES ========== */
-@media(max-width:900px){
-  body{overflow-y:auto;overflow-x:hidden}
-  .app{
-    display:flex;
-    flex-direction:column;
-    height:auto;
-    min-height:calc(100vh - 50px);
-    overflow:visible;
-  }
-  .sidebar{
-    width:100%;
-    max-height:none;
-    border-right:none;
-    border-bottom:1px solid var(--border);
-  }
-  .sb-list{max-height:280px}
-  .sb-filters{max-height:120px}
-  .center{
-    width:100%;
-    min-height:auto;
-    border-bottom:1px solid var(--border);
-  }
-  .view{min-height:70vh;height:70vh}
-  .right{
-    width:100%;
-    max-height:none;
-    border-left:none;
-  }
-  .rs-body{max-height:500px}
-  .tabs{order:3;width:100%;margin-left:0}
-  .topbar-right{order:2;margin-left:auto}
-  .brand .sub{display:inline}
-}
-
-/* ========== MOBILES ========== */
-@media(max-width:600px){
-  body{font-size:12px}
-  .topbar{padding:8px 10px;gap:8px;position:relative}
-  .brand{font-size:12px;width:100%;justify-content:center}
-  .brand .sub{display:inline;font-size:10px}
-  .topbar-right{width:100%;justify-content:center;gap:12px;font-size:10px;
-    padding:4px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-    margin:0;order:2}
-  .tabs{order:3;justify-content:center;padding-top:4px}
-  .tab{font-size:10px;padding:7px 12px}
-
-  .sidebar{max-height:none}
-  .sb-list{max-height:240px}
-  .sb-filters{max-height:100px}
-
-  .work-bar{padding:10px;gap:8px;flex-direction:column;align-items:stretch}
-  .work-bar-info{min-width:0}
-  .work-bar-title{font-size:13px}
-  .work-bar-title .ic{font-size:17px}
-  .work-bar-url{font-size:9px}
-  .work-bar-actions{width:100%;gap:6px}
-  .wb-btn{flex:1;justify-content:center;font-size:10px;padding:8px 10px;min-width:0}
-
-  .view{height:65vh;min-height:65vh}
-  .frame-wrap{inset:6px}
-  .f-loading{inset:6px}
-
-  .mode-tabs{padding:6px 8px;overflow-x:auto;scrollbar-width:none}
-  .mode-tabs::-webkit-scrollbar{display:none}
-  .mode-tab{font-size:10px;padding:6px 10px;white-space:nowrap}
-
-  .grid-view{padding:10px}
-  .previews{grid-template-columns:1fr;gap:10px}
-  .preview-frame-wrap{height:180px}
-
-  .rs-body{max-height:none;padding:10px}
-  .intel-row{font-size:9.5px}
-  .intel-row .v{max-width:130px}
-
-  .sb-item{padding:9px 10px}
-  .sb-item-name{font-size:10.5px}
-}
-
-/* ========== TRÈS PETITS MOBILES ========== */
-@media(max-width:380px){
-  .brand{font-size:11px}
-  .brand .dot{width:6px;height:6px}
-  .topbar-right{font-size:9px;gap:8px}
-  .tab{font-size:9px;padding:6px 9px}
-  .wb-btn{font-size:9px;padding:7px 6px}
-  .wb-btn span.lbl{display:none}
-  .preview-frame-wrap{height:150px}
-  .view{height:60vh;min-height:60vh}
 }
 
 /* ========== SIDEBAR GAUCHE ========== */
@@ -232,11 +141,29 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .mode-tab:hover{background:var(--bg-3);color:var(--text-0)}
 .mode-tab.active{background:var(--bg-3);color:var(--cyan);box-shadow:inset 0 -2px 0 var(--cyan)}
 
+/* ========== VIEW / IFRAME ========== */
 .view{flex:1;position:relative;overflow:hidden;background:var(--bg-1);min-height:0}
-.frame-wrap{position:absolute;inset:8px;display:flex;align-items:center;justify-content:center}
-.frame{width:100%;height:100%;border:1px solid var(--border);border-radius:6px;
-  background:white;box-shadow:0 6px 30px rgba(0,229,255,0.08);transition:transform 0.25s}
-.frame:hover{box-shadow:0 6px 30px rgba(0,229,255,0.18)}
+
+/* FORCE iframe visible partout */
+.view .frame-wrap{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:stretch;
+  justify-content:stretch;
+  padding:8px;
+}
+.view .frame{
+  width:100% !important;
+  height:100% !important;
+  display:block;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:white;
+  box-shadow:0 6px 30px rgba(0,229,255,0.08);
+  transition:transform 0.25s;
+}
+.view .frame:hover{box-shadow:0 6px 30px rgba(0,229,255,0.18)}
 
 .f-loading{position:absolute;inset:8px;background:rgba(10,15,26,0.96);
   border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -257,6 +184,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .f-info.visible{display:block}
 .f-info a{color:var(--green);font-weight:700;text-decoration:none}
 
+/* ========== GRILLE APERÇUS ========== */
 .grid-view{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch}
 .grid-title{font-family:var(--font-mono);font-size:10px;font-weight:700;
   color:var(--cyan);letter-spacing:1.2px;text-transform:uppercase;
@@ -338,6 +266,116 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   font-family:var(--font-mono);font-size:10px}
 .error-box{background:rgba(255,59,59,0.08);border:1px solid var(--red);color:var(--red);
   padding:12px;border-radius:5px;font-family:var(--font-mono);font-size:10px;margin:12px}
+
+/* ============================================================
+   RESPONSIVE — TABLETTES
+   ============================================================ */
+@media(max-width:900px){
+  body{overflow-y:auto;overflow-x:hidden}
+  .app{
+    display:flex;
+    flex-direction:column;
+    height:auto;
+    min-height:calc(100vh - 50px);
+    overflow:visible;
+  }
+  .sidebar{
+    width:100%;
+    max-height:none;
+    border-right:none;
+    border-bottom:1px solid var(--border);
+  }
+  .sb-list{max-height:280px}
+  .sb-filters{max-height:120px}
+  .center{
+    width:100%;
+    min-height:auto;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    flex-direction:column;
+  }
+  .view{
+    position:relative;
+    width:100%;
+    height:75vh;
+    min-height:420px;
+    flex:none;
+  }
+  .view .frame-wrap{inset:0;padding:6px}
+  .f-loading{inset:6px}
+  .right{
+    width:100%;
+    max-height:none;
+    border-left:none;
+  }
+  .rs-body{max-height:500px}
+  .tabs{order:3;width:100%;margin-left:0}
+  .topbar-right{order:2;margin-left:auto}
+  .brand .sub{display:inline}
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILES
+   ============================================================ */
+@media(max-width:600px){
+  body{font-size:12px}
+  .topbar{padding:8px 10px;gap:8px;position:relative}
+  .brand{font-size:12px;width:100%;justify-content:center}
+  .brand .sub{display:inline;font-size:10px}
+  .topbar-right{width:100%;justify-content:center;gap:12px;font-size:10px;
+    padding:4px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    margin:0;order:2}
+  .tabs{order:3;justify-content:center;padding-top:4px}
+  .tab{font-size:10px;padding:7px 12px}
+
+  .sidebar{max-height:none}
+  .sb-list{max-height:240px}
+  .sb-filters{max-height:100px}
+
+  .work-bar{padding:10px;gap:8px;flex-direction:column;align-items:stretch}
+  .work-bar-info{min-width:0}
+  .work-bar-title{font-size:13px}
+  .work-bar-title .ic{font-size:17px}
+  .work-bar-url{font-size:9px}
+  .work-bar-actions{width:100%;gap:6px}
+  .wb-btn{flex:1;justify-content:center;font-size:10px;padding:8px 10px;min-width:0}
+
+  .view{
+    height:70vh;
+    min-height:400px;
+  }
+  .view .frame-wrap{inset:0;padding:5px}
+  .f-loading{inset:5px}
+
+  .mode-tabs{padding:6px 8px;overflow-x:auto;scrollbar-width:none}
+  .mode-tabs::-webkit-scrollbar{display:none}
+  .mode-tab{font-size:10px;padding:6px 10px;white-space:nowrap}
+
+  .grid-view{padding:10px}
+  .previews{grid-template-columns:1fr;gap:10px}
+  .preview-frame-wrap{height:180px}
+
+  .rs-body{max-height:none;padding:10px}
+  .intel-row{font-size:9.5px}
+  .intel-row .v{max-width:130px}
+
+  .sb-item{padding:9px 10px}
+  .sb-item-name{font-size:10.5px}
+}
+
+/* ============================================================
+   RESPONSIVE — TRÈS PETITS MOBILES
+   ============================================================ */
+@media(max-width:380px){
+  .brand{font-size:11px}
+  .brand .dot{width:6px;height:6px}
+  .topbar-right{font-size:9px;gap:8px}
+  .tab{font-size:9px;padding:6px 9px}
+  .wb-btn{font-size:9px;padding:7px 6px}
+  .wb-btn span.lbl{display:none}
+  .preview-frame-wrap{height:150px}
+  .view{height:65vh;min-height:360px}
+}
 </style>
 </head>
 <body>
@@ -376,7 +414,10 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     </div>
     <div class="sb-filters" id="sbFilters"></div>
     <div class="sb-list" id="sbList">
-      <div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin-bottom:8px;margin-left:auto;margin-right:auto"></div>Scan GitHub...</div>
+      <div class="loading" style="padding:20px;font-size:10px">
+        <div class="spin" style="width:22px;height:22px;border-width:2px;margin:0 auto 8px"></div>
+        Scan GitHub...
+      </div>
     </div>
   </aside>
 
@@ -405,11 +446,15 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
         <div class="f-load-url" id="fLoadUrl">—</div>
       </div>
       <div class="frame-wrap">
-        <iframe class="frame" id="mainFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"></iframe>
+        <iframe class="frame" id="mainFrame"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"
+          referrerpolicy="no-referrer-when-downgrade"
+          allow="fullscreen; autoplay; clipboard-write; encrypted-media">
+        </iframe>
       </div>
       <div class="f-info" id="fInfo">
-        ℹ️ Ce travail ne peut pas être intégré (anti-iframe).<br>
-        <a id="fInfoLink" href="#" target="_blank">Ouvrir dans un nouvel onglet →</a>
+        ℹ️ Ce site refuse l'intégration (anti-iframe X-Frame-Options).<br>
+        <a id="fInfoLink" href="#" target="_blank">🚀 Ouvrir dans un nouvel onglet →</a>
       </div>
     </div>
 
@@ -425,7 +470,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     <div class="rs-body">
       <div class="intel-panel">
         <div class="intel-head"><span>📊 TRAVAIL ACTIF</span></div>
-        <div class="intel-body" id="intelActive">
+        <div class="intel-body">
           <div class="intel-row"><span class="k">Nom</span><span class="v cyan" id="ivName">—</span></div>
           <div class="intel-row"><span class="k">Catégorie</span><span class="v" id="ivCat">—</span></div>
           <div class="intel-row"><span class="k">Langage</span><span class="v" id="ivLang">—</span></div>
@@ -485,7 +530,7 @@ const EXCLUDED_REPOS = [
 ];
 
 /* ============================================================
-   ICONES CONTEXTUELLES AUTOMATIQUES
+   ICONES CONTEXTUELLES
    ============================================================ */
 const ICON_RULES = [
   { kw: ['meteo','météo','weather'], icon: '🌴', color: '#00ff88' },
@@ -565,8 +610,10 @@ let activeDemo = null;
 let currentMode = 'single';
 let currentFilter = 'all';
 let currentZoom = false;
-let reposMap = {};
 
+/* ============================================================
+   API GITHUB
+   ============================================================ */
 async function fetchRepos(){
   const headers = { 'Accept': 'application/vnd.github+json' };
   if (GITHUB_TOKEN) headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
@@ -586,10 +633,10 @@ async function fetchRepos(){
   return repos;
 }
 
+/* ============================================================
+   BUILD DEMOS
+   ============================================================ */
 function buildDemos(repos){
-  reposMap = {};
-  repos.forEach(r => reposMap[r.name.toLowerCase()] = r);
-
   const demos = [];
   const isExcluded = (name) => EXCLUDED_REPOS.includes((name || '').toLowerCase());
 
@@ -632,6 +679,9 @@ function buildDemos(repos){
   return demos;
 }
 
+/* ============================================================
+   STATS
+   ============================================================ */
 function updateTopStats(){
   document.getElementById('tbTotal').textContent = allDemos.length;
   document.getElementById('tbCats').textContent = new Set(allDemos.map(w => w.category)).size;
@@ -643,9 +693,13 @@ function updateTopStats(){
   document.getElementById('sysUpdate').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
 }
 
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 function renderSidebar(){
   const list = document.getElementById('sbList');
-  document.getElementById('sbCount').textContent = `${filteredDemos.length} démos · ${new Set(filteredDemos.map(w=>w.category)).size} catégories`;
+  document.getElementById('sbCount').textContent =
+    `${filteredDemos.length} démos · ${new Set(filteredDemos.map(w=>w.category)).size} catégories`;
 
   if (!filteredDemos.length){
     list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px">Aucune démo</div>';
@@ -673,6 +727,9 @@ function renderSidebar(){
   });
 }
 
+/* ============================================================
+   FILTRES
+   ============================================================ */
 function renderFilters(){
   const cats = new Map();
   allDemos.forEach(w => {
@@ -683,9 +740,9 @@ function renderFilters(){
   const c = document.getElementById('sbFilters');
   c.innerHTML = `
     <button class="sb-filter ${currentFilter === 'all' ? 'active' : ''}" data-cat="all">◆ Tout (${allDemos.length})</button>
-    ${sorted.map(([cat, n]) => {
-      return `<button class="sb-filter ${currentFilter === cat ? 'active' : ''}" data-cat="${cat}">${cat} (${n})</button>`;
-    }).join('')}
+    ${sorted.map(([cat, n]) =>
+      `<button class="sb-filter ${currentFilter === cat ? 'active' : ''}" data-cat="${cat}">${cat} (${n})</button>`
+    ).join('')}
   `;
   c.querySelectorAll('.sb-filter').forEach(b => {
     b.addEventListener('click', () => {
@@ -696,6 +753,9 @@ function renderFilters(){
   });
 }
 
+/* ============================================================
+   SÉLECTION
+   ============================================================ */
 function selectDemo(w){
   activeDemo = w;
 
@@ -718,6 +778,9 @@ function selectDemo(w){
   if (currentMode === 'grid') renderGrid();
 }
 
+/* ============================================================
+   CHARGEMENT IFRAME + DÉTECTION ANTI-IFRAME
+   ============================================================ */
 function loadIframe(url){
   const iframe = document.getElementById('mainFrame');
   const loading = document.getElementById('fLoading');
@@ -727,21 +790,35 @@ function loadIframe(url){
   loading.classList.remove('hidden');
   info.classList.remove('visible');
   loadUrl.textContent = url;
-  iframe.src = '';
-
-  setTimeout(() => { iframe.src = url; }, 50);
+  iframe.src = 'about:blank';
 
   let loaded = false;
+
+  // Timeout : si rien ne charge après 8s, c'est probablement bloqué
   const timeout = setTimeout(() => {
     if (!loaded){
       loading.classList.add('hidden');
+      // On ne montre pas l'info systématiquement (le site peut être juste lent)
+      console.warn('⏱️ Chargement lent ou bloqué:', url);
     }
-  }, 15000);
+  }, 8000);
 
   iframe.onload = () => {
     loaded = true;
     clearTimeout(timeout);
-    setTimeout(() => loading.classList.add('hidden'), 200);
+    // Petit délai pour laisser le rendu se faire
+    setTimeout(() => loading.classList.add('hidden'), 300);
+
+    // Détection anti-iframe : si le contenu est vide (about:blank garde l'URL précédente)
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow?.document;
+      // Si on peut accéder et que c'est vide → probablement bloqué
+      if (doc && doc.body && doc.body.innerHTML.trim() === ''){
+        info.classList.add('visible');
+      }
+    } catch(e){
+      // Cross-origin → normal, on laisse charger
+    }
   };
 
   iframe.onerror = () => {
@@ -749,8 +826,13 @@ function loadIframe(url){
     loading.classList.add('hidden');
     info.classList.add('visible');
   };
+
+  setTimeout(() => { iframe.src = url; }, 60);
 }
 
+/* ============================================================
+   GRILLE
+   ============================================================ */
 function renderGrid(){
   const grid = document.getElementById('previewsGrid');
   if (!filteredDemos.length){
@@ -802,6 +884,9 @@ function renderGrid(){
   });
 }
 
+/* ============================================================
+   MODE
+   ============================================================ */
 function switchMode(mode){
   currentMode = mode;
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === mode));
@@ -811,13 +896,20 @@ function switchMode(mode){
   if (mode === 'grid') renderGrid();
 }
 
+/* ============================================================
+   ZOOM
+   ============================================================ */
 function toggleZoom(){
   currentZoom = !currentZoom;
   const iframe = document.getElementById('mainFrame');
   iframe.style.transform = currentZoom ? 'scale(1.15)' : 'scale(1)';
-  document.getElementById('zoomBtn').innerHTML = currentZoom ? '🔍 <span class="lbl">Zoom off</span>' : '🔍 <span class="lbl">Zoom</span>';
+  document.getElementById('zoomBtn').innerHTML =
+    currentZoom ? '🔍 <span class="lbl">Zoom off</span>' : '🔍 <span class="lbl">Zoom</span>';
 }
 
+/* ============================================================
+   FILTRES
+   ============================================================ */
 function applyFilters(){
   const search = document.getElementById('searchInput').value.toLowerCase().trim();
   let result = [...allDemos];
@@ -839,6 +931,9 @@ function applyFilters(){
   if (currentMode === 'grid') renderGrid();
 }
 
+/* ============================================================
+   PANNEAU DROIT
+   ============================================================ */
 function renderRightPanels(){
   const top = [...allDemos].sort((a,b) => b.stars - a.stars).slice(0, 8);
   document.getElementById('topList').innerHTML = top.length ? top.map((w, i) => `
@@ -868,9 +963,12 @@ function renderRightPanels(){
   }).join('');
 }
 
+/* ============================================================
+   INIT
+   ============================================================ */
 async function init(){
   const list = document.getElementById('sbList');
-  list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin-bottom:8px;margin-left:auto;margin-right:auto"></div>Scan GitHub...</div>';
+  list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin:0 auto 8px"></div>Scan GitHub...</div>';
 
   try {
     const repos = await fetchRepos();
@@ -895,6 +993,9 @@ async function init(){
   }
 }
 
+/* ============================================================
+   EVENTS
+   ============================================================ */
 document.getElementById('searchInput').addEventListener('input', applyFilters);
 document.getElementById('reloadBtn').addEventListener('click', () => {
   if (activeDemo) loadIframe(activeDemo.url);
