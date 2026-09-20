@@ -55,13 +55,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .topbar-stat .val.green{color:var(--green)}
 .topbar-stat .val.amber{color:var(--amber)}
 
-#tokenBtn{background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);
-  font-family:var(--font-mono);font-size:10px;font-weight:600;
-  padding:5px 9px;border-radius:4px;cursor:pointer;letter-spacing:0.3px;
-  transition:all 0.15s;white-space:nowrap}
-#tokenBtn:hover{border-color:var(--cyan);color:var(--cyan)}
-#tokenBtn.ok{border-color:var(--green);color:var(--green)}
-
 /* ========== APP DESKTOP ========== */
 .app{display:grid;grid-template-columns:280px 1fr 300px;height:calc(100vh - 50px);overflow:hidden}
 @media(min-width:1600px){.app{grid-template-columns:340px 1fr 360px}}
@@ -262,37 +255,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   align-items:center;justify-content:center;gap:8px}
 .intel-toggle:hover{background:var(--bg-3)}
 
-/* ========== MODAL TOKEN ========== */
-#tokenModal{display:none;position:fixed;inset:0;background:rgba(5,8,16,0.92);
-  z-index:1000;align-items:center;justify-content:center;padding:20px}
-#tokenModal.open{display:flex}
-.token-box{background:var(--bg-2);border:1px solid var(--cyan);border-radius:8px;
-  padding:20px;max-width:440px;width:100%;
-  font-family:var(--font-mono);color:var(--text-0)}
-.token-title{font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:12px;
-  letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.token-desc{font-size:10px;color:var(--text-1);line-height:1.6;margin-bottom:14px}
-.token-desc strong{color:var(--green)}
-.token-desc a{color:var(--cyan)}
-.token-desc code{background:var(--bg-3);padding:1px 5px;border-radius:3px;
-  color:var(--amber);font-size:10px}
-#tokenInput{width:100%;background:var(--bg-3);border:1px solid var(--border);
-  border-radius:4px;color:var(--text-0);padding:10px 12px;
-  font-size:11px;font-family:var(--font-mono);margin-bottom:12px}
-#tokenInput:focus{outline:none;border-color:var(--cyan)}
-.token-btns{display:flex;gap:8px}
-.token-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;
-  padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:0.5px;
-  transition:all 0.15s;border:1px solid transparent}
-.token-btn.save{flex:1;background:var(--cyan);color:var(--bg-0);border-color:var(--cyan)}
-.token-btn.save:hover{background:white;border-color:white}
-.token-btn.clear{background:var(--bg-3);color:var(--red);border-color:var(--red)}
-.token-btn.clear:hover{background:var(--red);color:white}
-.token-btn.cancel{background:var(--bg-3);color:var(--text-1);border-color:var(--border)}
-.token-btn.cancel:hover{border-color:var(--text-1);color:var(--text-0)}
-#tokenStatus{margin-top:10px;font-size:9px;color:var(--text-2);text-align:center;
-  min-height:14px;line-height:1.5}
-
 /* ============================================================
    RESPONSIVE — TABLETTES
    ============================================================ */
@@ -398,7 +360,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     <div class="topbar-stat"><span>DÉMOS</span><span class="val green" id="tbTotal">—</span></div>
     <div class="topbar-stat"><span>CATÉG.</span><span class="val amber" id="tbCats">—</span></div>
     <div class="topbar-stat"><span>★</span><span class="val" id="tbStars">—</span></div>
-    <button id="tokenBtn" title="Configurer le token GitHub">🔑 Token</button>
   </div>
 </div>
 
@@ -507,9 +468,9 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
       <div class="intel-panel">
         <div class="intel-head"><span>⚙️ SYSTÈME</span></div>
         <div class="intel-body">
-          <div class="intel-row"><span class="k">Source</span><span class="v">GitHub API</span></div>
+          <div class="intel-row"><span class="k">Source</span><span class="v">Proxy Worker</span></div>
           <div class="intel-row"><span class="k">User</span><span class="v cyan">@gunout</span></div>
-          <div class="intel-row"><span class="k">Token</span><span class="v" id="sysToken">—</span></div>
+          <div class="intel-row"><span class="k">Quota</span><span class="v green">5000/h</span></div>
           <div class="intel-row"><span class="k">MAJ</span><span class="v green" id="sysUpdate">—</span></div>
           <div class="intel-row"><span class="k">Mode</span><span class="v" id="sysMode">iframe</span></div>
         </div>
@@ -519,33 +480,9 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 
 </div>
 
-<!-- MODAL TOKEN -->
-<div id="tokenModal">
-  <div class="token-box">
-    <div class="token-title">
-      <span>🔑</span> TOKEN GITHUB
-    </div>
-    <div class="token-desc">
-      Ton token est stocké <strong>uniquement dans ce navigateur</strong>
-      (localStorage). Il n'est jamais envoyé ailleurs qu'à l'API GitHub.<br><br>
-      Crée-le sur
-      <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>
-      — scope <code>public_repo</code> uniquement.<br><br>
-      <strong>⚠️ Ne partage jamais ton token publiquement.</strong>
-    </div>
-    <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off">
-    <div class="token-btns">
-      <button class="token-btn save" id="tokenSave">💾 Enregistrer</button>
-      <button class="token-btn clear" id="tokenClear">🗑️ Effacer</button>
-      <button class="token-btn cancel" id="tokenCancel">✕</button>
-    </div>
-    <div id="tokenStatus"></div>
-  </div>
-</div>
-
 <script>
 /* ============================================================
-   FILTRE WARNING SANDBOX (nos propres démos → risque nul)
+   FILTRE WARNING SANDBOX
    ============================================================ */
 (function(){
   const _warn = console.warn;
@@ -568,8 +505,8 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 const GITHUB_USERNAME = 'gunout';
 const API_BASE = 'https://api.github.com';
 
-// Token chargé dynamiquement depuis localStorage (jamais hardcodé)
-let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
+// ⭐ Worker Cloudflare qui relaie les appels GitHub avec ton token secret
+const PROXY_URL = 'https://gunout-proxy.gunout.workers.dev/';
 
 const EXCLUDED_REPOS = [
   'monitor-gunout',
@@ -662,13 +599,13 @@ let currentFilter = 'all';
 let currentZoom = false;
 
 /* ============================================================
-   API GITHUB — avec token + cache
+   API GITHUB via Worker Proxy — 5000 req/h pour TOUS les visiteurs
    ============================================================ */
 async function fetchRepos(){
-  const CACHE_KEY = 'gunout_demos_cache';
+  const CACHE_KEY = 'gunout_demos_cache_v2';
   const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
 
-  // 1. Vérifier le cache
+  // 1. Cache localStorage (économise les appels Worker)
   try {
     const cached = localStorage.getItem(CACHE_KEY);
     if (cached) {
@@ -680,45 +617,49 @@ async function fetchRepos(){
     }
   } catch(e) {}
 
-  // 2. Appel API
-  const headers = { 'Accept': 'application/vnd.github+json' };
-  if (GITHUB_TOKEN) headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
-
+  // 2. Appel via Worker proxy
   const repos = [];
   let page = 1;
 
   while (true){
-    const url = `${API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&page=${page}&sort=updated`;
-    const r = await fetch(url, { headers });
+    const target = `${API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&page=${page}&sort=updated`;
+    const proxyUrl = `${PROXY_URL}?url=${encodeURIComponent(target)}`;
 
-    // Détection rate limit
-    if (r.status === 403) {
-      const remaining = r.headers.get('X-RateLimit-Remaining');
-      const reset = r.headers.get('X-RateLimit-Reset');
-      console.warn('🚫 Rate limit GitHub atteint');
+    let r;
+    try {
+      r = await fetch(proxyUrl);
+    } catch(err){
+      console.warn('❌ Erreur réseau Worker:', err.message);
+      // Fallback cache expiré
+      try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) return JSON.parse(cached).data;
+      } catch(e) {}
+      throw new Error(`Impossible de contacter le proxy (${PROXY_URL}). Vérifie que le Worker est déployé.`);
+    }
 
-      // Fallback : cache expiré
+    // Gestion d'erreur HTTP
+    if (!r.ok) {
+      let errMsg = `HTTP ${r.status}`;
+      try {
+        const errJson = await r.json();
+        if (errJson.error) errMsg = errJson.error;
+        if (errJson.message) errMsg = errJson.message;
+      } catch(e) {}
+
+      console.warn('🚫 Erreur proxy:', errMsg);
+
+      // Fallback cache expiré
       try {
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
-          const { data } = JSON.parse(cached);
           console.log('📦 Cache expiré utilisé en secours');
-          return data;
+          return JSON.parse(cached).data;
         }
       } catch(e) {}
 
-      const resetTime = reset
-        ? new Date(parseInt(reset) * 1000).toLocaleTimeString('fr-FR')
-        : '?';
-      throw new Error(
-        `Rate limit GitHub atteint. Réessayez après ${resetTime}. ` +
-        (GITHUB_TOKEN
-          ? 'Votre token est peut-être invalide ou expiré.'
-          : 'Ajoutez un token via le bouton 🔑 pour 5000 req/h.')
-      );
+      throw new Error(`Erreur proxy : ${errMsg}`);
     }
-
-    if (!r.ok) break;
 
     const data = await r.json();
     if (!Array.isArray(data) || !data.length) break;
@@ -727,7 +668,7 @@ async function fetchRepos(){
     page++;
   }
 
-  // 3. Sauvegarder dans le cache
+  // 3. Sauvegarde cache
   try {
     localStorage.setItem(CACHE_KEY, JSON.stringify({
       data: repos,
@@ -735,6 +676,7 @@ async function fetchRepos(){
     }));
   } catch(e) {}
 
+  console.log('✅ ' + repos.length + ' repos récupérés via proxy');
   return repos;
 }
 
@@ -799,10 +741,6 @@ function updateTopStats(){
   document.getElementById('gsStars').textContent = allDemos.reduce((s,w) => s+w.stars, 0);
   document.getElementById('gsLangs').textContent = new Set(allDemos.map(w => w.language)).size;
   document.getElementById('sysUpdate').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
-  document.getElementById('sysToken').textContent = GITHUB_TOKEN
-    ? '✓ actif'
-    : '⚠ absent';
-  document.getElementById('sysToken').className = GITHUB_TOKEN ? 'v green' : 'v amber';
 }
 
 /* ============================================================
@@ -897,7 +835,7 @@ function selectDemo(w){
 }
 
 /* ============================================================
-   CHARGEMENT IFRAME + DÉTECTION ANTI-IFRAME
+   CHARGEMENT IFRAME
    ============================================================ */
 function loadIframe(url){
   const iframe = document.getElementById('mainFrame');
@@ -1094,105 +1032,12 @@ function setupIntelToggle(){
 }
 
 /* ============================================================
-   GESTION DU TOKEN (localStorage + modal)
-   ============================================================ */
-function setupTokenModal(){
-  const btn = document.getElementById('tokenBtn');
-  const modal = document.getElementById('tokenModal');
-  const input = document.getElementById('tokenInput');
-  const saveBtn = document.getElementById('tokenSave');
-  const clearBtn = document.getElementById('tokenClear');
-  const cancelBtn = document.getElementById('tokenCancel');
-  const status = document.getElementById('tokenStatus');
-
-  // État du bouton selon présence du token
-  const updateBtnState = () => {
-    if (GITHUB_TOKEN) {
-      btn.classList.add('ok');
-      btn.textContent = '🔑 ✓';
-      btn.title = 'Token actif (' + GITHUB_TOKEN.substring(0, 7) + '...)';
-    } else {
-      btn.classList.remove('ok');
-      btn.textContent = '🔑 Token';
-      btn.title = 'Aucun token — 60 req/h';
-    }
-  };
-  updateBtnState();
-
-  // Ouvrir le modal
-  btn.addEventListener('click', () => {
-    input.value = '';
-    input.placeholder = GITHUB_TOKEN ? 'Token déjà configuré' : 'ghp_...';
-    status.textContent = GITHUB_TOKEN
-      ? '✓ Token actif (' + GITHUB_TOKEN.substring(0, 10) + '...)'
-      : 'Aucun token — limite 60 req/h';
-    status.style.color = GITHUB_TOKEN ? 'var(--green)' : 'var(--text-2)';
-    modal.classList.add('open');
-    setTimeout(() => input.focus(), 50);
-  });
-
-  // Fermer
-  cancelBtn.addEventListener('click', () => modal.classList.remove('open'));
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.classList.remove('open');
-  });
-
-  // Échap pour fermer
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('open')){
-      modal.classList.remove('open');
-    }
-  });
-
-  // Enregistrer
-  saveBtn.addEventListener('click', () => {
-    const val = input.value.trim();
-    if (!val) {
-      modal.classList.remove('open');
-      return;
-    }
-    if (!val.startsWith('ghp_') && !val.startsWith('github_pat_')) {
-      status.textContent = '⚠️ Format invalide (ghp_ ou github_pat_ requis)';
-      status.style.color = 'var(--amber)';
-      return;
-    }
-    localStorage.setItem('github_token', val);
-    GITHUB_TOKEN = val;
-    status.textContent = '✓ Enregistré. Rechargement des démos...';
-    status.style.color = 'var(--green)';
-    updateBtnState();
-    setTimeout(() => {
-      // Vider le cache pour forcer un refresh avec le nouveau token
-      localStorage.removeItem('gunout_demos_cache');
-      modal.classList.remove('open');
-      location.reload();
-    }, 800);
-  });
-
-  // Effacer
-  clearBtn.addEventListener('click', () => {
-    if (!confirm('Supprimer le token du navigateur ?')) return;
-    localStorage.removeItem('github_token');
-    localStorage.removeItem('gunout_demos_cache');
-    GITHUB_TOKEN = '';
-    status.textContent = '✓ Token supprimé. Rechargement...';
-    status.style.color = 'var(--amber)';
-    updateBtnState();
-    setTimeout(() => {
-      modal.classList.remove('open');
-      location.reload();
-    }, 800);
-  });
-}
-
-/* ============================================================
    INIT
    ============================================================ */
 async function init(){
   const list = document.getElementById('sbList');
-  list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin:0 auto 8px"></div>Scan GitHub...</div>';
+  list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin:0 auto 8px"></div>Chargement via proxy...</div>';
 
-  setupTokenModal();
   setupIntelToggle();
 
   try {
@@ -1214,19 +1059,18 @@ async function init(){
 
     if (allDemos.length) selectDemo(allDemos[0]);
   } catch(err){
-    const isRateLimit = err.message.includes('Rate limit');
     list.innerHTML = `
       <div class="error-box" style="line-height:1.6">
-        ${isRateLimit ? '⏱️' : '❌'} ${err.message}
-        ${isRateLimit ? `
-          <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,59,59,0.3);
-                      font-size:9px;color:var(--text-1)">
-            💡 <strong>Solutions :</strong><br>
-            1. Clique sur <strong>🔑 Token</strong> en haut à droite<br>
-            2. Colle ton token GitHub (scope <code>public_repo</code>)<br>
-            3. Le quota passera à <strong>5000 req/h</strong>
-          </div>
-        ` : ''}
+        ❌ ${err.message}
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,59,59,0.3);
+                    font-size:9px;color:var(--text-1)">
+          💡 <strong>Vérifications :</strong><br>
+          1. Le Worker est-il déployé ?<br>
+          2. Le secret <code>GITHUB_TOKEN</code> est-il configuré ?<br>
+          3. Teste l'URL :
+          <a href="${PROXY_URL}?url=https%3A%2F%2Fapi.github.com%2Fusers%2F${GITHUB_USERNAME}"
+             target="_blank" style="color:var(--cyan)">tester le proxy</a>
+        </div>
       </div>
     `;
   }
