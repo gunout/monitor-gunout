@@ -55,15 +55,17 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 .topbar-stat .val.green{color:var(--green)}
 .topbar-stat .val.amber{color:var(--amber)}
 
+#tokenBtn{background:var(--bg-3);border:1px solid var(--border);color:var(--text-1);
+  font-family:var(--font-mono);font-size:10px;font-weight:600;
+  padding:5px 9px;border-radius:4px;cursor:pointer;letter-spacing:0.3px;
+  transition:all 0.15s;white-space:nowrap}
+#tokenBtn:hover{border-color:var(--cyan);color:var(--cyan)}
+#tokenBtn.ok{border-color:var(--green);color:var(--green)}
+
 /* ========== APP DESKTOP ========== */
 .app{display:grid;grid-template-columns:280px 1fr 300px;height:calc(100vh - 50px);overflow:hidden}
-
-@media(min-width:1600px){
-  .app{grid-template-columns:340px 1fr 360px}
-}
-@media(max-width:1200px){
-  .app{grid-template-columns:240px 1fr 260px}
-}
+@media(min-width:1600px){.app{grid-template-columns:340px 1fr 360px}}
+@media(max-width:1200px){.app{grid-template-columns:240px 1fr 260px}}
 
 /* ========== SIDEBAR GAUCHE ========== */
 .sidebar{background:var(--bg-1);border-right:1px solid var(--border);
@@ -143,25 +145,11 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 
 /* ========== VIEW / IFRAME ========== */
 .view{flex:1;position:relative;overflow:hidden;background:var(--bg-1);min-height:0}
-
-.view .frame-wrap{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:stretch;
-  justify-content:stretch;
-  padding:8px;
-}
-.view .frame{
-  width:100% !important;
-  height:100% !important;
-  display:block;
-  border:1px solid var(--border);
-  border-radius:6px;
-  background:white;
-  box-shadow:0 6px 30px rgba(0,229,255,0.08);
-  transition:transform 0.25s;
-}
+.view .frame-wrap{position:absolute;inset:0;display:flex;align-items:stretch;
+  justify-content:stretch;padding:8px}
+.view .frame{width:100% !important;height:100% !important;display:block;
+  border:1px solid var(--border);border-radius:6px;background:white;
+  box-shadow:0 6px 30px rgba(0,229,255,0.08);transition:transform 0.25s}
 .view .frame:hover{box-shadow:0 6px 30px rgba(0,229,255,0.18)}
 
 .f-loading{position:absolute;inset:8px;background:rgba(10,15,26,0.96);
@@ -267,83 +255,65 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   padding:12px;border-radius:5px;font-family:var(--font-mono);font-size:10px;margin:12px}
 
 /* ========== BOUTON TOGGLE INTELLIGENCE (mobile only) ========== */
-.intel-toggle{
-  display:none;
-  width:100%;
-  background:var(--bg-2);
-  border:none;
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  color:var(--cyan);
-  font-family:var(--font-mono);
-  font-size:11px;
-  font-weight:700;
-  padding:12px;
-  cursor:pointer;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
+.intel-toggle{display:none;width:100%;background:var(--bg-2);border:none;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  color:var(--cyan);font-family:var(--font-mono);font-size:11px;font-weight:700;
+  padding:12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;
+  align-items:center;justify-content:center;gap:8px}
 .intel-toggle:hover{background:var(--bg-3)}
+
+/* ========== MODAL TOKEN ========== */
+#tokenModal{display:none;position:fixed;inset:0;background:rgba(5,8,16,0.92);
+  z-index:1000;align-items:center;justify-content:center;padding:20px}
+#tokenModal.open{display:flex}
+.token-box{background:var(--bg-2);border:1px solid var(--cyan);border-radius:8px;
+  padding:20px;max-width:440px;width:100%;
+  font-family:var(--font-mono);color:var(--text-0)}
+.token-title{font-size:12px;font-weight:700;color:var(--cyan);margin-bottom:12px;
+  letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.token-desc{font-size:10px;color:var(--text-1);line-height:1.6;margin-bottom:14px}
+.token-desc strong{color:var(--green)}
+.token-desc a{color:var(--cyan)}
+.token-desc code{background:var(--bg-3);padding:1px 5px;border-radius:3px;
+  color:var(--amber);font-size:10px}
+#tokenInput{width:100%;background:var(--bg-3);border:1px solid var(--border);
+  border-radius:4px;color:var(--text-0);padding:10px 12px;
+  font-size:11px;font-family:var(--font-mono);margin-bottom:12px}
+#tokenInput:focus{outline:none;border-color:var(--cyan)}
+.token-btns{display:flex;gap:8px}
+.token-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;
+  padding:9px 12px;border-radius:4px;cursor:pointer;letter-spacing:0.5px;
+  transition:all 0.15s;border:1px solid transparent}
+.token-btn.save{flex:1;background:var(--cyan);color:var(--bg-0);border-color:var(--cyan)}
+.token-btn.save:hover{background:white;border-color:white}
+.token-btn.clear{background:var(--bg-3);color:var(--red);border-color:var(--red)}
+.token-btn.clear:hover{background:var(--red);color:white}
+.token-btn.cancel{background:var(--bg-3);color:var(--text-1);border-color:var(--border)}
+.token-btn.cancel:hover{border-color:var(--text-1);color:var(--text-0)}
+#tokenStatus{margin-top:10px;font-size:9px;color:var(--text-2);text-align:center;
+  min-height:14px;line-height:1.5}
 
 /* ============================================================
    RESPONSIVE — TABLETTES
    ============================================================ */
 @media(max-width:900px){
   body{overflow-y:auto;overflow-x:hidden}
-
-  .app{
-    display:flex;
-    flex-direction:column;
-    height:auto;
-    min-height:calc(100vh - 50px);
-    overflow:visible;
-  }
-  .sidebar{order:1}
-  .center{order:2}
-  .right{order:3}
-
-  .sidebar{
-    width:100%;
-    max-height:none;
-    border-right:none;
-    border-bottom:1px solid var(--border);
-  }
+  .app{display:flex;flex-direction:column;height:auto;
+    min-height:calc(100vh - 50px);overflow:visible}
+  .sidebar{order:1;width:100%;max-height:none;border-right:none;
+    border-bottom:1px solid var(--border)}
   .sb-list{max-height:240px}
   .sb-filters{max-height:110px}
-
-  .center{
-    width:100%;
-    border-bottom:none;
-    display:flex;
-    flex-direction:column;
-    background:var(--bg-0);
-  }
-
-  .view{
-    position:relative;
-    width:100%;
-    height:70vh;
-    min-height:400px;
-    max-height:80vh;
-    flex:none;
-  }
+  .center{order:2;width:100%;border-bottom:none;display:flex;
+    flex-direction:column;background:var(--bg-0)}
+  .view{position:relative;width:100%;height:70vh;min-height:400px;
+    max-height:80vh;flex:none}
   .view .frame-wrap{inset:0;padding:6px}
   .f-loading{inset:6px}
-
   .intel-toggle{display:flex}
-
-  .right{
-    width:100%;
-    max-height:none;
-    border-left:none;
-    border-top:none;
-    display:none;
-  }
+  .right{order:3;width:100%;max-height:none;border-left:none;
+    border-top:none;display:none}
   .right.open{display:flex}
-
   .rs-body{max-height:none;padding:10px}
   .tabs{order:3;width:100%;margin-left:0}
   .topbar-right{order:2;margin-left:auto}
@@ -359,8 +329,8 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   .brand{font-size:12px;width:100%;justify-content:center}
   .brand .sub{display:inline;font-size:10px}
   .topbar-right{width:100%;justify-content:center;gap:12px;font-size:10px;
-    padding:4px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-    margin:0;order:2}
+    padding:4px 0;border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);margin:0;order:2}
   .tabs{order:3;justify-content:center;padding-top:4px}
   .tab{font-size:10px;padding:7px 12px}
 
@@ -376,11 +346,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   .work-bar-actions{width:100%;gap:5px}
   .wb-btn{flex:1;justify-content:center;font-size:9.5px;padding:7px 6px;min-width:0}
 
-  .view{
-    height:65vh;
-    min-height:380px;
-    max-height:75vh;
-  }
+  .view{height:65vh;min-height:380px;max-height:75vh}
   .view .frame-wrap{inset:0;padding:4px}
 
   .mode-tabs{padding:6px 8px;overflow-x:auto;scrollbar-width:none}
@@ -432,6 +398,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     <div class="topbar-stat"><span>DÉMOS</span><span class="val green" id="tbTotal">—</span></div>
     <div class="topbar-stat"><span>CATÉG.</span><span class="val amber" id="tbCats">—</span></div>
     <div class="topbar-stat"><span>★</span><span class="val" id="tbStars">—</span></div>
+    <button id="tokenBtn" title="Configurer le token GitHub">🔑 Token</button>
   </div>
 </div>
 
@@ -542,6 +509,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
         <div class="intel-body">
           <div class="intel-row"><span class="k">Source</span><span class="v">GitHub API</span></div>
           <div class="intel-row"><span class="k">User</span><span class="v cyan">@gunout</span></div>
+          <div class="intel-row"><span class="k">Token</span><span class="v" id="sysToken">—</span></div>
           <div class="intel-row"><span class="k">MAJ</span><span class="v green" id="sysUpdate">—</span></div>
           <div class="intel-row"><span class="k">Mode</span><span class="v" id="sysMode">iframe</span></div>
         </div>
@@ -549,6 +517,30 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     </div>
   </aside>
 
+</div>
+
+<!-- MODAL TOKEN -->
+<div id="tokenModal">
+  <div class="token-box">
+    <div class="token-title">
+      <span>🔑</span> TOKEN GITHUB
+    </div>
+    <div class="token-desc">
+      Ton token est stocké <strong>uniquement dans ce navigateur</strong>
+      (localStorage). Il n'est jamais envoyé ailleurs qu'à l'API GitHub.<br><br>
+      Crée-le sur
+      <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>
+      — scope <code>public_repo</code> uniquement.<br><br>
+      <strong>⚠️ Ne partage jamais ton token publiquement.</strong>
+    </div>
+    <input type="password" id="tokenInput" placeholder="ghp_..." autocomplete="off">
+    <div class="token-btns">
+      <button class="token-btn save" id="tokenSave">💾 Enregistrer</button>
+      <button class="token-btn clear" id="tokenClear">🗑️ Effacer</button>
+      <button class="token-btn cancel" id="tokenCancel">✕</button>
+    </div>
+    <div id="tokenStatus"></div>
+  </div>
 </div>
 
 <script>
@@ -575,14 +567,15 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
    ============================================================ */
 const GITHUB_USERNAME = 'gunout';
 const API_BASE = 'https://api.github.com';
-const GITHUB_TOKEN = '';
+
+// Token chargé dynamiquement depuis localStorage (jamais hardcodé)
+let GITHUB_TOKEN = localStorage.getItem('github_token') || '';
 
 const EXCLUDED_REPOS = [
   'monitor-gunout',
   'reunion-monitor',
   'github-monitor',
   'monitor-reunion',
-  'monitor',
   'dashboard'
 ];
 
@@ -669,24 +662,79 @@ let currentFilter = 'all';
 let currentZoom = false;
 
 /* ============================================================
-   API GITHUB
+   API GITHUB — avec token + cache
    ============================================================ */
 async function fetchRepos(){
+  const CACHE_KEY = 'gunout_demos_cache';
+  const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+  // 1. Vérifier le cache
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const { data, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp < CACHE_TTL) {
+        console.log('📦 Cache utilisé (' + Math.round((Date.now()-timestamp)/1000) + 's)');
+        return data;
+      }
+    }
+  } catch(e) {}
+
+  // 2. Appel API
   const headers = { 'Accept': 'application/vnd.github+json' };
   if (GITHUB_TOKEN) headers['Authorization'] = `Bearer ${GITHUB_TOKEN}`;
 
   const repos = [];
   let page = 1;
+
   while (true){
     const url = `${API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&page=${page}&sort=updated`;
     const r = await fetch(url, { headers });
+
+    // Détection rate limit
+    if (r.status === 403) {
+      const remaining = r.headers.get('X-RateLimit-Remaining');
+      const reset = r.headers.get('X-RateLimit-Reset');
+      console.warn('🚫 Rate limit GitHub atteint');
+
+      // Fallback : cache expiré
+      try {
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const { data } = JSON.parse(cached);
+          console.log('📦 Cache expiré utilisé en secours');
+          return data;
+        }
+      } catch(e) {}
+
+      const resetTime = reset
+        ? new Date(parseInt(reset) * 1000).toLocaleTimeString('fr-FR')
+        : '?';
+      throw new Error(
+        `Rate limit GitHub atteint. Réessayez après ${resetTime}. ` +
+        (GITHUB_TOKEN
+          ? 'Votre token est peut-être invalide ou expiré.'
+          : 'Ajoutez un token via le bouton 🔑 pour 5000 req/h.')
+      );
+    }
+
     if (!r.ok) break;
+
     const data = await r.json();
-    if (!data.length) break;
+    if (!Array.isArray(data) || !data.length) break;
     repos.push(...data);
     if (data.length < 100) break;
     page++;
   }
+
+  // 3. Sauvegarder dans le cache
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({
+      data: repos,
+      timestamp: Date.now()
+    }));
+  } catch(e) {}
+
   return repos;
 }
 
@@ -695,7 +743,10 @@ async function fetchRepos(){
    ============================================================ */
 function buildDemos(repos){
   const demos = [];
-  const isExcluded = (name) => EXCLUDED_REPOS.includes((name || '').toLowerCase());
+  const isExcluded = (name) => {
+    const n = (name || '').toLowerCase();
+    return EXCLUDED_REPOS.some(ex => n === ex.toLowerCase());
+  };
 
   repos.forEach(repo => {
     if (isExcluded(repo.name)) return;
@@ -748,6 +799,10 @@ function updateTopStats(){
   document.getElementById('gsStars').textContent = allDemos.reduce((s,w) => s+w.stars, 0);
   document.getElementById('gsLangs').textContent = new Set(allDemos.map(w => w.language)).size;
   document.getElementById('sysUpdate').textContent = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+  document.getElementById('sysToken').textContent = GITHUB_TOKEN
+    ? '✓ actif'
+    : '⚠ absent';
+  document.getElementById('sysToken').className = GITHUB_TOKEN ? 'v green' : 'v amber';
 }
 
 /* ============================================================
@@ -1039,11 +1094,106 @@ function setupIntelToggle(){
 }
 
 /* ============================================================
+   GESTION DU TOKEN (localStorage + modal)
+   ============================================================ */
+function setupTokenModal(){
+  const btn = document.getElementById('tokenBtn');
+  const modal = document.getElementById('tokenModal');
+  const input = document.getElementById('tokenInput');
+  const saveBtn = document.getElementById('tokenSave');
+  const clearBtn = document.getElementById('tokenClear');
+  const cancelBtn = document.getElementById('tokenCancel');
+  const status = document.getElementById('tokenStatus');
+
+  // État du bouton selon présence du token
+  const updateBtnState = () => {
+    if (GITHUB_TOKEN) {
+      btn.classList.add('ok');
+      btn.textContent = '🔑 ✓';
+      btn.title = 'Token actif (' + GITHUB_TOKEN.substring(0, 7) + '...)';
+    } else {
+      btn.classList.remove('ok');
+      btn.textContent = '🔑 Token';
+      btn.title = 'Aucun token — 60 req/h';
+    }
+  };
+  updateBtnState();
+
+  // Ouvrir le modal
+  btn.addEventListener('click', () => {
+    input.value = '';
+    input.placeholder = GITHUB_TOKEN ? 'Token déjà configuré' : 'ghp_...';
+    status.textContent = GITHUB_TOKEN
+      ? '✓ Token actif (' + GITHUB_TOKEN.substring(0, 10) + '...)'
+      : 'Aucun token — limite 60 req/h';
+    status.style.color = GITHUB_TOKEN ? 'var(--green)' : 'var(--text-2)';
+    modal.classList.add('open');
+    setTimeout(() => input.focus(), 50);
+  });
+
+  // Fermer
+  cancelBtn.addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('open');
+  });
+
+  // Échap pour fermer
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')){
+      modal.classList.remove('open');
+    }
+  });
+
+  // Enregistrer
+  saveBtn.addEventListener('click', () => {
+    const val = input.value.trim();
+    if (!val) {
+      modal.classList.remove('open');
+      return;
+    }
+    if (!val.startsWith('ghp_') && !val.startsWith('github_pat_')) {
+      status.textContent = '⚠️ Format invalide (ghp_ ou github_pat_ requis)';
+      status.style.color = 'var(--amber)';
+      return;
+    }
+    localStorage.setItem('github_token', val);
+    GITHUB_TOKEN = val;
+    status.textContent = '✓ Enregistré. Rechargement des démos...';
+    status.style.color = 'var(--green)';
+    updateBtnState();
+    setTimeout(() => {
+      // Vider le cache pour forcer un refresh avec le nouveau token
+      localStorage.removeItem('gunout_demos_cache');
+      modal.classList.remove('open');
+      location.reload();
+    }, 800);
+  });
+
+  // Effacer
+  clearBtn.addEventListener('click', () => {
+    if (!confirm('Supprimer le token du navigateur ?')) return;
+    localStorage.removeItem('github_token');
+    localStorage.removeItem('gunout_demos_cache');
+    GITHUB_TOKEN = '';
+    status.textContent = '✓ Token supprimé. Rechargement...';
+    status.style.color = 'var(--amber)';
+    updateBtnState();
+    setTimeout(() => {
+      modal.classList.remove('open');
+      location.reload();
+    }, 800);
+  });
+}
+
+/* ============================================================
    INIT
    ============================================================ */
 async function init(){
   const list = document.getElementById('sbList');
   list.innerHTML = '<div class="loading" style="padding:20px;font-size:10px"><div class="spin" style="width:22px;height:22px;border-width:2px;margin:0 auto 8px"></div>Scan GitHub...</div>';
+
+  setupTokenModal();
+  setupIntelToggle();
 
   try {
     const repos = await fetchRepos();
@@ -1063,9 +1213,22 @@ async function init(){
     renderRightPanels();
 
     if (allDemos.length) selectDemo(allDemos[0]);
-    setupIntelToggle();
   } catch(err){
-    list.innerHTML = `<div class="error-box">❌ ${err.message}</div>`;
+    const isRateLimit = err.message.includes('Rate limit');
+    list.innerHTML = `
+      <div class="error-box" style="line-height:1.6">
+        ${isRateLimit ? '⏱️' : '❌'} ${err.message}
+        ${isRateLimit ? `
+          <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,59,59,0.3);
+                      font-size:9px;color:var(--text-1)">
+            💡 <strong>Solutions :</strong><br>
+            1. Clique sur <strong>🔑 Token</strong> en haut à droite<br>
+            2. Colle ton token GitHub (scope <code>public_repo</code>)<br>
+            3. Le quota passera à <strong>5000 req/h</strong>
+          </div>
+        ` : ''}
+      </div>
+    `;
   }
 }
 
