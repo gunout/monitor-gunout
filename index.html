@@ -481,7 +481,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
         <div class="f-load-url" id="fLoadUrl">—</div>
       </div>
       <div class="frame-wrap">
-        <!-- IFRAME PRINCIPALE CORRIGÉE : plus de allow="..." obsolète -->
         <iframe class="frame" id="mainFrame"
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox allow-presentation"
           referrerpolicy="no-referrer-when-downgrade">
@@ -553,6 +552,24 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 </div>
 
 <script>
+/* ============================================================
+   FILTRE WARNING SANDBOX (nos propres démos → risque nul)
+   ============================================================ */
+(function(){
+  const _warn = console.warn;
+  console.warn = function(...args){
+    const msg = args[0];
+    if (typeof msg === 'string' &&
+        (msg.includes('allow-scripts and allow-same-origin') ||
+         msg.includes('can remove its sandboxing') ||
+         msg.includes('Feature Policy') ||
+         msg.includes('Skipping unsupported'))){
+      return;
+    }
+    _warn.apply(console, args);
+  };
+})();
+
 /* ============================================================
    CONFIG
    ============================================================ */
@@ -817,7 +834,6 @@ function selectDemo(w){
 
   if (currentMode === 'grid') renderGrid();
 
-  // Sur mobile : on scrolle automatiquement vers l'iframe
   if (window.innerWidth <= 900){
     setTimeout(() => {
       document.querySelector('.view')?.scrollIntoView({behavior:'smooth', block:'start'});
@@ -844,7 +860,6 @@ function loadIframe(url){
   const timeout = setTimeout(() => {
     if (!loaded){
       loading.classList.add('hidden');
-      console.warn('⏱️ Chargement lent ou bloqué:', url);
     }
   }, 8000);
 
@@ -893,7 +908,6 @@ function renderGrid(){
       </div>
 
       <div class="preview-frame-wrap">
-        <!-- IFRAME PREVIEW CORRIGÉE : no-referrer ajouté -->
         <iframe class="preview-frame" src="${w.url}" loading="lazy"
           sandbox="allow-scripts allow-same-origin"
           referrerpolicy="no-referrer"></iframe>
