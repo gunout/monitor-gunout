@@ -294,7 +294,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
 @media(max-width:900px){
   body{overflow-y:auto;overflow-x:hidden}
 
-  /* Réorganisation : on force l'ordre visuel */
   .app{
     display:flex;
     flex-direction:column;
@@ -302,7 +301,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     min-height:calc(100vh - 50px);
     overflow:visible;
   }
-  /* Ordre explicite : sidebar (1) → center (2) → right (3) */
   .sidebar{order:1}
   .center{order:2}
   .right{order:3}
@@ -324,7 +322,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     background:var(--bg-0);
   }
 
-  /* L'iframe prend toute la largeur et ~65vh */
   .view{
     position:relative;
     width:100%;
@@ -336,7 +333,6 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
   .view .frame-wrap{inset:0;padding:6px}
   .f-loading{inset:6px}
 
-  /* Bouton toggle visible sur mobile/tablette */
   .intel-toggle{display:flex}
 
   .right{
@@ -344,7 +340,7 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
     max-height:none;
     border-left:none;
     border-top:none;
-    display:none; /* masqué par défaut sur mobile */
+    display:none;
   }
   .right.open{display:flex}
 
@@ -485,10 +481,10 @@ body{font-family:var(--font-sans);background:var(--bg-0);color:var(--text-0);
         <div class="f-load-url" id="fLoadUrl">—</div>
       </div>
       <div class="frame-wrap">
+        <!-- IFRAME PRINCIPALE CORRIGÉE : plus de allow="..." obsolète -->
         <iframe class="frame" id="mainFrame"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox"
-          referrerpolicy="no-referrer-when-downgrade"
-          allow="fullscreen; autoplay; clipboard-write; encrypted-media">
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-popups-to-escape-sandbox allow-presentation"
+          referrerpolicy="no-referrer-when-downgrade">
         </iframe>
       </div>
       <div class="f-info" id="fInfo">
@@ -897,8 +893,10 @@ function renderGrid(){
       </div>
 
       <div class="preview-frame-wrap">
+        <!-- IFRAME PREVIEW CORRIGÉE : no-referrer ajouté -->
         <iframe class="preview-frame" src="${w.url}" loading="lazy"
-          sandbox="allow-scripts allow-same-origin"></iframe>
+          sandbox="allow-scripts allow-same-origin"
+          referrerpolicy="no-referrer"></iframe>
         <div class="preview-overlay">
           <button class="preview-btn">▶ Afficher en grand</button>
         </div>
